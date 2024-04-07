@@ -1,0 +1,34 @@
+:root {
+  --colorTeal: #029491;
+  --colorDark: #000000;
+  --colorWhite: #fff;
+
+  --colorOrange: #ffb64f;
+  --colorTealLight: #7ce3e1;
+  --colorBlue: #5970ff;
+
+  --maxWidth: 1440px;
+  --headerHeight: 93px;
+}
+@font-face {
+  font-family: "Ferry";
+  src: url("../font/Ferry-Black.ttf") format("truetype");
+  font-style: normal;
+}
+* {
+  box-sizing: border-box;
+}
+body {
+  max-width: var(--maxWidth);
+  margin: 0 auto;
+}
+button {
+  cursor: pointer;
+}
+a {
+  text-decoration: none;
+  color: inherit;
+}
+ul {
+  list-style-type: none;
+}
