@@ -38,7 +38,7 @@ const Header: React.FC = () => {
       <div className={styles.container}>
         <div className={styles.text}>Зарегистрироваться</div>
         <div className={styles.line}></div>
-        <Button buttonText="Войти" />
+        <Button buttonText="Войти" className={styles.buttonHeader} />
       </div>
     </header>
   );
