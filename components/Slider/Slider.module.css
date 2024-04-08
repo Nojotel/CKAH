@@ -1,0 +1,37 @@
+.container {
+  width: 1440px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 70px 0;
+}
+
+.slider {
+  display: flex;
+  overflow: hidden;
+}
+
+.slide {
+  width: 400px;
+  height: 225px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.2);
+  background: var(--colorWhite);
+  margin: 25px;
+}
+.description {
+  color: var(--colorDark);
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 22px;
+  text-align: left;
+}
+.arrowLeft,
+.arrowRight {
+  cursor: pointer;
+}

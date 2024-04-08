@@ -3,3 +3,9 @@ export interface ButtonProps {
   className?: string;
   style?: React.CSSProperties;
 }
+
+export interface Slide {
+  id: number;
+  description: string;
+  imageUrl: string;
+}
