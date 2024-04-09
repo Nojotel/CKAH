@@ -9,3 +9,15 @@ export interface Slide {
   description: string;
   imageUrl: string;
 }
+export interface Rate {
+  id: number;
+  title: string;
+  imageUrl: string;
+  subTitle: string;
+  currentPrice: number;
+  oldPrice: number;
+  priceDescription: string;
+  features: string[];
+  buttonText: string;
+  color: string;
+}

@@ -1,56 +1,83 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import Slider from "react-slick";
 import styles from "./Slider.module.css";
 import Image from "next/image";
 import Left from "@/public/Left.png";
 import Right from "@/public/Right.png";
 import slides from "@/types/slide";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
-const Slider: React.FC = () => {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [visibleSlides, setVisibleSlides] = useState<any[]>([]);
+const CustomSlider: React.FC = () => {
+  const [slidesToShow, setSlidesToShow] = useState(3);
 
   useEffect(() => {
-    const slidesToShow = 3;
-    const totalSlides = slides.length;
-    const start = currentIndex;
-    const end = start + slidesToShow;
-    const visibleSlides = [...slides.slice(start, end)];
+    const handleResize = () => {
+      if (window.innerWidth < 768) {
+        setSlidesToShow(1);
+      } else if (window.innerWidth < 1200) {
+        setSlidesToShow(2);
+      } else {
+        setSlidesToShow(3);
+      }
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
-    if (visibleSlides.length < slidesToShow) {
-      const remainingSlides = slidesToShow - visibleSlides.length;
-      visibleSlides.push(...slides.slice(0, remainingSlides));
-    }
-
-    setVisibleSlides(visibleSlides);
-  }, [currentIndex]);
-
-  const handleNext = () => {
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % slides.length);
-  };
-
-  const handlePrev = () => {
-    setCurrentIndex((prevIndex) => (prevIndex === 0 ? slides.length - 1 : prevIndex - 1));
+  const settings = {
+    dots: false,
+    infinite: false,
+    speed: 500,
+    slidesToShow: slidesToShow,
+    slidesToScroll: 1,
+    draggable: true,
+    nextArrow: <NextArrow />,
+    prevArrow: <PrevArrow />,
   };
 
   return (
     <div className={styles.container}>
-      <div className={styles.arrowLeft} onClick={handlePrev}>
-        <Image className={styles.logo} src={Left} alt="Логотип" width={39} height={39} />
-      </div>
-      <div className={styles.slider}>
-        {visibleSlides.map((slide) => (
-          <div key={slide.id} className={styles.slide}>
-            <Image src={slide.imageUrl} alt={slide.description} width={50} height={50} />
-            <p>{slide.description}</p>
-          </div>
-        ))}
-      </div>
-      <div className={styles.arrowRight} onClick={handleNext}>
-        <Image className={styles.logo} src={Right} alt="Логотип" width={39} height={39} />
-      </div>
+      {slides.length > 0 && (
+        <Slider {...settings}>
+          {slides.map((slide) => (
+            <div key={slide.id} className={styles.slide}>
+              <Image src={slide.imageUrl} alt={slide.description} width={65} height={79} />
+              <p>{slide.description}</p>
+            </div>
+          ))}
+        </Slider>
+      )}
     </div>
   );
 };
 
-export default Slider;
+const NextArrow: React.FC<{
+  className?: string;
+  style?: React.CSSProperties;
+  onClick?: () => void;
+}> = ({ className, style, onClick }) => {
+  return (
+    <div className={className} style={{ ...style, display: "block" }} onClick={onClick}>
+      <Image src={Right} alt="Next" width={39} height={39} />
+    </div>
+  );
+};
+
+const PrevArrow: React.FC<{
+  className?: string;
+  style?: React.CSSProperties;
+  onClick?: () => void;
+}> = ({ className, style, onClick }) => {
+  return (
+    <div className={className} style={{ ...style, display: "block" }} onClick={onClick}>
+      <Image src={Left} alt="Prev" width={39} height={39} />
+    </div>
+  );
+};
+
+export default CustomSlider;

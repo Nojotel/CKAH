@@ -9,6 +9,7 @@
 
   --maxWidth: 1440px;
   --headerHeight: 93px;
+  --footerHeight: 137px;
 }
 @font-face {
   font-family: "Ferry";
@@ -21,6 +22,7 @@
 body {
   max-width: var(--maxWidth);
   margin: 0 auto;
+  overflow-x: hidden;
 }
 button {
   cursor: pointer;
@@ -31,4 +33,12 @@ a {
 }
 ul {
   list-style-type: none;
+}
+.slick-list {
+  max-width: var(--maxWidth);
+  width: 100%;
+}
+.slick-slide {
+  width: 440px !important;
+  margin: 20px;
 }

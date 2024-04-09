@@ -81,7 +81,7 @@
 .line {
   width: 2px;
   height: 26px;
-  background: rgb(2, 148, 145);
+  background: var(--colorTeal);
   opacity: 0.6;
 }
 .buttonHeader {

@@ -1,0 +1,180 @@
+.container {
+  height: auto;
+  display: flex;
+  align-items: flex-end;
+  width: max-content;
+}
+.containerCell {
+  border-radius: 10px;
+  margin-right: 20px;
+  background-color: var(--colorOrange);
+}
+.containerHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 30px;
+}
+.containerHeaderText {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  margin-right: 20px;
+}
+.containerHeaderTitle {
+  color: var(--colorDark);
+  font-size: 30px;
+  font-weight: 500;
+  line-height: 36px;
+  text-align: left;
+}
+.containerHeaderSubTitle {
+  color: var(--colorDark);
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 22px;
+  text-align: left;
+  width: max-content;
+}
+.containerMain {
+  position: relative;
+  bottom: 3px;
+  width: calc(100% - 4px);
+  background-color: var(--colorWhite);
+  border-radius: 6px;
+  padding: 30px;
+  margin: auto;
+  height: 400px;
+}
+
+.price {
+  color: var(--colorDark);
+  font-size: 30px;
+  font-weight: 500;
+  line-height: 36px;
+  text-align: left;
+  margin-right: 19px;
+  margin-bottom: 10px;
+}
+
+.priceOld {
+  color: var(--colorDark);
+  font-size: 25px;
+  font-weight: 500;
+  line-height: 30px;
+  text-align: left;
+  text-decoration-line: line-through;
+
+  opacity: 0.5;
+}
+
+.description {
+  color: var(--colorDark);
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 22px;
+  text-align: left;
+  margin-bottom: 60px;
+  width: max-content;
+  height: 20px;
+}
+
+.subTitle {
+  color: var(--colorDark);
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 24px;
+  text-align: left;
+  margin-bottom: 10px;
+}
+
+.containerCheck {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.imgCheck {
+  width: 20px;
+  height: 20px;
+  margin-right: 8px;
+}
+
+.textCheck {
+  color: var(--colorDark);
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 22px;
+  text-align: left;
+}
+
+.buttonCell {
+  width: inherit;
+  background: rgb(210, 210, 210);
+  color: var(--colorDark);
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 24px;
+  letter-spacing: 1%;
+  text-align: center;
+  padding: 15px 40px;
+  border: 0;
+
+  border-radius: 5px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  margin-top: 55px;
+}
+.buttonCell:hover {
+  background-color: var(--colorOrange);
+  color: var(--colorDark);
+}
+
+.containerCell:last-child .containerHeaderTitle {
+  color: var(--colorWhite);
+}
+
+.containerCell:last-child .containerHeaderSubTitle {
+  color: var(--colorWhite);
+}
+
+.containerCell:nth-child(2) .buttonCell {
+  width: inherit;
+  background-color: var(--colorBlue);
+  color: var(--colorWhite);
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 24px;
+  letter-spacing: 1%;
+  text-align: center;
+  padding: 15px 40px;
+  border: 0;
+  border-radius: 5px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  margin-top: 55px;
+}
+
+.containerCell:nth-child(2) .buttonCell:hover {
+  opacity: 0.7;
+}
+
+.containerCell:nth-child(3) .buttonCell {
+  width: inherit;
+  background-color: var(--colorBlue);
+  color: var(--colorWhite);
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 24px;
+  letter-spacing: 1%;
+  text-align: center;
+  padding: 15px 40px;
+  border: 0;
+  border-radius: 5px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  margin-top: 55px;
+}
+
+.containerCell:nth-child(3) .buttonCell:hover {
+  opacity: 0.7;
+}

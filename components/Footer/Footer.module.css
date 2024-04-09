@@ -1,0 +1,37 @@
+.footer {
+  background-color: var(--colorTeal);
+  width: 100%;
+}
+
+.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: var(--maxWidth);
+  height: var(--footerHeight);
+  padding: 0 60px;
+  margin: 0 auto;
+  margin-top: auto; /* располагаем Footer внизу страницы */
+}
+
+.logo {
+  width: 141px;
+  height: 141px;
+}
+
+.containerText {
+  color: var(--colorWhite);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 17px;
+  text-align: right;
+}
+
+.footer {
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+}
