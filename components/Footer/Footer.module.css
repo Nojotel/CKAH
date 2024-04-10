@@ -11,7 +11,7 @@
   height: var(--footerHeight);
   padding: 0 60px;
   margin: 0 auto;
-  margin-top: auto; /* располагаем Footer внизу страницы */
+  margin-top: auto;
 }
 
 .logo {

@@ -1,0 +1,33 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 70px;
+}
+
+.containerImg {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.title {
+  max-width: 785px;
+  color: var(--colorDark);
+  font-family: Ferry;
+  font-size: 40px;
+  font-weight: 900;
+  line-height: 48px;
+  text-align: left;
+}
+
+.img {
+  width: 321.76px;
+  height: 342.03px;
+}
+.lock {
+  bottom: 230px;
+  left: 50px;
+  position: relative;
+}

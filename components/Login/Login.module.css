@@ -1,0 +1,159 @@
+.container {
+  border-radius: 10px;
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.15);
+  background: var(--colorWhite);
+  padding: 25px;
+  width: 429px;
+}
+
+.containerLink {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.textLink {
+  color: var(--colorTeal);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 19px;
+  text-align: left;
+}
+
+.textLinkOff {
+  color: rgb(199, 199, 199);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 19px;
+  text-align: left;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.labelText {
+  margin-top: 15px;
+  color: rgb(148, 148, 148);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 19px;
+  text-align: left;
+}
+
+.usernameText,
+.passwordText {
+  box-sizing: border-box;
+  border: 1px solid rgb(199, 199, 199);
+  border-radius: 5px;
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.05);
+  background: var(--colorWhite);
+  margin-top: 15px;
+  width: 379px;
+  height: 43px;
+  padding-left: 15px;
+}
+
+.restorePassword {
+  color: var(--colorBlue);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 17px;
+  text-align: center;
+  text-decoration-line: underline;
+  cursor: not-allowed;
+  margin-bottom: 30px;
+}
+
+.textIn {
+  color: rgb(148, 148, 148);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 19px;
+  text-align: left;
+  margin-bottom: 15px;
+}
+
+.containerSocial {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.containerGoogle,
+.containerFacebook,
+.containerYandex {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 10px;
+  box-sizing: border-box;
+  border: 1px solid rgba(89, 112, 255, 0.51);
+  border-radius: 3px;
+  background: var(--colorWhite);
+  padding: 5px 20px;
+  cursor: not-allowed;
+}
+
+.socialImg {
+  width: 56px;
+  height: 17px;
+}
+
+.submit {
+  color: var(--colorWhite);
+  font-size: 22px;
+  font-weight: 500;
+  line-height: 27px;
+  text-align: center;
+  border: 0;
+  border-radius: 5px;
+  margin-top: 30px;
+  margin-bottom: 15px;
+  background: var(--colorBlue);
+  transition: background-color 0.3s ease;
+  width: 379px;
+  height: 59px;
+  cursor: pointer;
+}
+
+.submit:hover {
+  background: rgb(48, 75, 252);
+}
+
+.underline,
+.underlineOff {
+  position: relative;
+}
+
+.underline::after,
+.underlineOff::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  height: 2px;
+  border-radius: 100px;
+  width: 100%;
+  transform-origin: left;
+  transition: transform 0.4s ease;
+}
+
+.underline::after {
+  background-color: var(--colorTeal);
+}
+
+.underlineOff::after {
+  background-color: rgb(199, 199, 199);
+}
+
+.underline {
+  cursor: pointer;
+}
+
+.underlineOff {
+  cursor: not-allowed;
+}

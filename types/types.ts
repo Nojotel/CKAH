@@ -1,6 +1,7 @@
 export interface ButtonProps {
   buttonText: string;
   className?: string;
+  onClick?: () => void;
   style?: React.CSSProperties;
 }
 

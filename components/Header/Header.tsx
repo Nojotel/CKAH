@@ -1,18 +1,21 @@
 "use client";
-
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import Logo from "@/public/logo.png";
 import styles from "./Header.module.css";
 import Button from "@/components/Button/Button";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 const Header: React.FC = () => {
   const pathname = usePathname();
-
+  const router = useRouter();
   const isActive = (path: string) => {
     return pathname === path;
+  };
+
+  const handleLogin = () => {
+    router.push("/login");
   };
 
   return (
@@ -36,9 +39,11 @@ const Header: React.FC = () => {
         </ul>
       </nav>
       <div className={styles.container}>
-        <div className={styles.text}>Зарегистрироваться</div>
+        <div className={styles.text} onClick={handleLogin}>
+          Зарегистрироваться
+        </div>
         <div className={styles.line}></div>
-        <Button buttonText="Войти" className={styles.buttonHeader} />
+        <Button buttonText="Войти" className={styles.buttonHeader} onClick={handleLogin} />
       </div>
     </header>
   );
