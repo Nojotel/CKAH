@@ -1,22 +1,19 @@
 "use client";
-import React, { useState, useCallback, useEffect, useContext } from "react";
-import { useRouter } from "next/navigation"; // Импортируем useRouter
+import React, { useState, useCallback, useEffect } from "react";
 import styles from "./Login.module.css";
 import Image from "next/image";
 import Google from "@/public/Google.svg";
 import Facebook from "@/public/Facebook.svg";
 import Yandex from "@/public/Yandex.svg";
 import { validateEmail, validatePassword } from "@/utils/ValidationUtils";
-import { AuthContext } from "@/api/AuthContext";
 
 const Login = () => {
-  const { login } = useContext(AuthContext);
-  const router = useRouter(); // Получаем экземпляр роутера
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState("");
   const [password, setPassword] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [isFormValid, setIsFormValid] = useState(false);
+  const [isAutofilled, setIsAutofilled] = useState(false); // New state for autofill detection
 
   const handleEmailChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -39,20 +36,22 @@ const Login = () => {
   }, [checkFormValidity, email, password]);
 
   useEffect(() => {
-    if (email && password) {
-      setIsFormValid(true);
+    if (email === "" && password === "") {
+      setIsFormValid(false);
     }
   }, [email, password]);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  useEffect(() => {
+    // Check if fields are autofilled
+    if (document.activeElement instanceof HTMLInputElement) {
+      setIsAutofilled(document.activeElement.autocomplete === "on");
+    }
+  }, []);
+
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (isFormValid) {
-      try {
-        await login(email, password);
-        router.push("/search"); // Переходим на страницу /search после успешной авторизации
-      } catch (error) {
-        console.error("Ошибка авторизации:", error);
-      }
+      console.log("Form submitted:", { email, password });
     }
   };
 
@@ -73,7 +72,7 @@ const Login = () => {
           <input type="password" className={`${styles.passwordText} ${passwordError ? styles.inputError : ""}`} name="password" value={password} onChange={handlePasswordChange} autoComplete="current-password" />
           <div className={styles.errorText}>{passwordError}</div>
         </label>
-        <input type="submit" value="Войти" className={`${styles.submit} ${isFormValid ? "" : styles.submitDisabled}`} disabled={!isFormValid} />
+        <input type="submit" value="Войти" className={`${styles.submit} ${isFormValid || isAutofilled ? "" : styles.submitDisabled}`} disabled={!isFormValid && !isAutofilled} />
       </form>
       <div className={styles.restorePassword}>Восстановить пароль</div>
       <div className={styles.textIn}> Войти через:</div>
