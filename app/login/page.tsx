@@ -10,10 +10,12 @@ const LoginPage = () => {
     <div className={styles.container}>
       <div className={styles.containerImg}>
         <h2 className={styles.title}>Для оформления подписки на тариф, необходимо авторизоваться.</h2>
-        <Image className={styles.img} src={Img} alt="Для оформления подписки на тариф, необходимо авторизоваться" width={321} height={342} />
+        <Image src={Img} alt="Для оформления подписки на тариф, необходимо авторизоваться" width={321} height={342} priority />
       </div>
-      <Image className={styles.lock} src={Lock} alt="Замок" width={75} height={92} />
-      <Login />
+      <div className={styles.loginContainer}>
+        <Image src={Lock} alt="Замок" width={75} height={92} className={styles.lock} />
+        <Login />
+      </div>
     </div>
   );
 };

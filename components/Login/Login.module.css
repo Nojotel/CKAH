@@ -36,12 +36,13 @@
 }
 
 .labelText {
-  margin-top: 15px;
+  margin-top: 20px;
   color: rgb(148, 148, 148);
   font-size: 16px;
   font-weight: 400;
   line-height: 19px;
   text-align: left;
+  position: relative;
 }
 
 .usernameText,
@@ -55,6 +56,7 @@
   width: 379px;
   height: 43px;
   padding-left: 15px;
+  position: relative;
 }
 
 .restorePassword {
@@ -120,7 +122,7 @@
   cursor: pointer;
 }
 
-.submit:hover {
+.submit:not(.submitDisabled):hover {
   background: rgb(48, 75, 252);
 }
 
@@ -155,5 +157,30 @@
 }
 
 .underlineOff {
+  cursor: not-allowed;
+}
+.inputError {
+  border: 1px solid rgb(255, 89, 89) !important;
+}
+
+.errorText {
+  width: 100%;
+  color: rgb(255, 89, 89);
+  position: absolute;
+  bottom: -18px;
+  left: 0;
+  text-align: center;
+
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 17px;
+}
+.usernameText:focus,
+.passwordText:focus {
+  border: 2px solid var(--colorBlue);
+  outline: none;
+}
+.submitDisabled {
+  opacity: 0.5;
   cursor: not-allowed;
 }
