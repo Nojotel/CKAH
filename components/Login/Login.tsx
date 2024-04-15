@@ -42,7 +42,6 @@ const Login = () => {
   }, [email, password]);
 
   useEffect(() => {
-    // Check if fields are autofilled
     if (document.activeElement instanceof HTMLInputElement) {
       setIsAutofilled(document.activeElement.autocomplete === "on");
     }
