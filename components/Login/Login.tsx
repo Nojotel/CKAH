@@ -13,7 +13,7 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [isFormValid, setIsFormValid] = useState(false);
-  const [isAutofilled, setIsAutofilled] = useState(false); // New state for autofill detection
+  const [isAutofilled, setIsAutofilled] = useState(false);
 
   const handleEmailChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
