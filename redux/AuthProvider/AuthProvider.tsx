@@ -5,7 +5,6 @@ import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "@/redux/store";
 import { setUser, setAccessToken, setAccountInfo, setIsAuthenticated, setIsLoading } from "@/redux/slices/authSlice";
 import { useAuthLogger } from "@/hooks/useAuthLogger";
-
 interface AuthContextValue {
   login: (email: string, password: string) => Promise<void>;
   logout: () => void;
@@ -16,14 +15,11 @@ interface AuthContextValue {
   isAuthenticated: boolean;
   isLoading: boolean;
 }
-
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
-
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { accessToken, isAuthenticated } = useSelector((state: RootState) => state.auth);
   const [isAuthChecked, setIsAuthChecked] = useState(false);
   const dispatch = useDispatch();
-
   const logout = useCallback(() => {
     localStorage.removeItem("accessToken");
     localStorage.removeItem("tokenExpire");
@@ -33,7 +29,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     dispatch(setIsAuthenticated(false));
     setIsAuthChecked(true);
   }, [dispatch]);
-
   const getUserInfo = useCallback(
     async (token: string) => {
       dispatch(setIsLoading(true));
@@ -56,7 +51,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     },
     [dispatch, logout]
   );
-
   const login = useCallback(
     async (email: string, password: string) => {
       dispatch(setIsLoading(true));
@@ -66,10 +60,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           password: password,
         });
         const { accessToken, expire } = response.data;
-
         localStorage.setItem("accessToken", accessToken);
         localStorage.setItem("tokenExpire", expire);
-
         dispatch(setAccessToken(accessToken));
         await getUserInfo(accessToken);
       } catch (error: any) {
@@ -81,26 +73,21 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     [dispatch, getUserInfo]
   );
 
+  // In your AuthProvider component
   useEffect(() => {
-    const initAuth = async () => {
-      const storedToken = localStorage.getItem("accessToken");
-      const tokenExpire = localStorage.getItem("tokenExpire");
+    const storedToken = localStorage.getItem("accessToken");
+    const tokenExpire = localStorage.getItem("tokenExpire");
+    const isTokenValid = storedToken && tokenExpire && new Date() < new Date(tokenExpire);
 
-      if (storedToken && tokenExpire && new Date() < new Date(tokenExpire)) {
-        if (!accessToken) {
-          dispatch(setAccessToken(storedToken));
-          await getUserInfo(storedToken);
-        }
-      } else if (storedToken) {
-        logout();
-      }
-    };
-
-    initAuth();
-  }, [dispatch, getUserInfo, logout, accessToken]);
+    if (isTokenValid) {
+      dispatch(setAccessToken(storedToken));
+      dispatch(setIsAuthenticated(true));
+    } else if (storedToken) {
+      logout();
+    }
+  }, [dispatch, logout]);
 
   useAuthLogger(isAuthenticated, isAuthChecked);
-
   const value = {
     login,
     logout,
@@ -111,10 +98,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     isAuthenticated,
     isLoading: useSelector((state: RootState) => state.auth.isLoading),
   };
-
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
-
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (context === undefined) {

@@ -2,14 +2,12 @@
 import React, { useState, useCallback, useEffect } from "react";
 import styles from "./Login.module.css";
 import Image from "next/image";
-import Avatar from "@/public/Avatar.png";
-import Logout from "@/public/Logout.png";
 import { validateEmail, validatePassword } from "@/utils/ValidationUtils";
 import { useAuth } from "@/redux/AuthProvider/AuthProvider";
 import { useRouter } from "next/navigation";
 
 const Login = () => {
-  const { login, logout, user, accountInfo, isLoading, accessToken, getUserInfo } = useAuth();
+  const { login, user, accessToken, getUserInfo } = useAuth();
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState("");
   const [password, setPassword] = useState("");
@@ -72,31 +70,9 @@ const Login = () => {
   return (
     <div className={styles.container}>
       {user ? (
-        <div className={styles.userInfo}>
-          <div className={styles.accountInfo}>
-            {isLoading ? (
-              <div>Loading...</div>
-            ) : accountInfo ? (
-              <div>
-                <div>Лимит по компаниям: {accountInfo.companyLimit}</div>
-                <div>Использовано компаний: {accountInfo.usedCompanies}</div>
-              </div>
-            ) : null}
-          </div>
-          <div className={styles.userAvatar}>
-            <Image src={Avatar} alt="Avatar" width={48} height={48} />
-            <div>{user.name}</div>
-            <button onClick={logout}>
-              <Image src={Logout} alt="Logout" width={24} height={24} />
-            </button>
-          </div>
-        </div>
+        <div>{user.name}</div>
       ) : (
         <>
-          <div className={styles.containerLink}>
-            <div className={`${styles.textLink} ${styles.underline}`}>Войти</div>
-            <div className={`${styles.textLinkOff} ${styles.underlineOff}`}>Зарегистрироваться</div>
-          </div>
           <form className={styles.form} onSubmit={handleSubmit}>
             <label className={styles.labelText}>
               Логин:

@@ -1,5 +1,4 @@
 "use client";
-
 import React, { useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
@@ -13,11 +12,15 @@ import UserHeader from "@/components/UserHeader/UserHeader";
 const Header: React.FC = () => {
   const pathname = usePathname();
   const router = useRouter();
-  const { user, isAuthenticated, accountInfo, isLoading, logout, getUserInfo, accessToken } = useAuth();
+  const { user, isAuthenticated, accountInfo, logout, accessToken, getUserInfo } = useAuth();
 
   useEffect(() => {
-    if (accessToken) {
-      getUserInfo(accessToken);
+    const storedToken = typeof window !== "undefined" ? localStorage.getItem("accessToken") : null;
+    const tokenExpire = typeof window !== "undefined" ? localStorage.getItem("tokenExpire") : null;
+    const isTokenValid = storedToken && tokenExpire && new Date() < new Date(tokenExpire);
+
+    if (isTokenValid && !accessToken) {
+      getUserInfo(storedToken);
     }
   }, [accessToken, getUserInfo]);
 
@@ -47,7 +50,7 @@ const Header: React.FC = () => {
           </li>
         </ul>
       </nav>
-      {isAuthenticated && accountInfo !== null ? <UserHeader user={user} accountInfo={accountInfo} logout={logout} isLoading={isLoading} /> : <Registration onClick={handleLogin} />}
+      {isAuthenticated && accountInfo !== null ? <UserHeader user={user} accountInfo={accountInfo} logout={logout} /> : <Registration onClick={handleLogin} />}
     </header>
   );
 };

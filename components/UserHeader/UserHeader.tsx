@@ -2,8 +2,6 @@ import React, { useEffect } from "react";
 import Image from "next/image";
 import styles from "./UserHeader.module.css";
 import Avatar from "@/public/Avatar.png";
-import Loader from "@/components/Loader/Loader";
-
 interface UserHeaderProps {
   user: {
     name: string;
@@ -13,22 +11,15 @@ interface UserHeaderProps {
     usedCompanyCount: number;
   } | null;
   logout: () => void;
-  isLoading: boolean;
 }
-
-const UserHeader: React.FC<UserHeaderProps> = ({ user, accountInfo, logout, isLoading }) => {
+const UserHeader: React.FC<UserHeaderProps> = ({ user, accountInfo, logout }) => {
   useEffect(() => {
-    if (accountInfo) {
-      localStorage.setItem("accountInfo", JSON.stringify(accountInfo));
-    }
-  }, [accountInfo]);
-
+    localStorage.removeItem("accountInfo");
+  }, []);
   return (
     <div className={styles.container}>
       <div className={styles.accountInfo}>
-        {isLoading ? (
-          <Loader />
-        ) : accountInfo ? (
+        {accountInfo ? (
           <div className={styles.containerCompani}>
             <div className={styles.containerCompaniUseText}>
               Использовано компаний <span className={styles.usedCompanyCount}>{accountInfo.usedCompanyCount}</span>
@@ -53,5 +44,4 @@ const UserHeader: React.FC<UserHeaderProps> = ({ user, accountInfo, logout, isLo
     </div>
   );
 };
-
 export default UserHeader;
