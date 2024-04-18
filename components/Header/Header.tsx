@@ -12,7 +12,6 @@ const Header: React.FC = () => {
   const pathname = usePathname();
   const router = useRouter();
   const { user, isAuthenticated, accountInfo, logout, accessToken, getUserInfo } = useAuth();
-
   useEffect(() => {
     if (accessToken) {
       getUserInfo(accessToken);
