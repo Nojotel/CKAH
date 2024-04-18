@@ -8,30 +8,24 @@ import { usePathname, useRouter } from "next/navigation";
 import { useAuth } from "@/redux/AuthProvider/AuthProvider";
 import Registration from "@/components/Registration/Registration";
 import UserHeader from "@/components/UserHeader/UserHeader";
-
 const Header: React.FC = () => {
   const pathname = usePathname();
   const router = useRouter();
   const { user, isAuthenticated, accountInfo, logout, accessToken, getUserInfo } = useAuth();
-
   useEffect(() => {
-    const storedToken = typeof window !== "undefined" ? localStorage.getItem("accessToken") : null;
-    const tokenExpire = typeof window !== "undefined" ? localStorage.getItem("tokenExpire") : null;
-    const isTokenValid = storedToken && tokenExpire && new Date() < new Date(tokenExpire);
-
-    if (isTokenValid && !accessToken) {
-      getUserInfo(storedToken);
+    if (accessToken) {
+      getUserInfo(accessToken);
     }
   }, [accessToken, getUserInfo]);
-
   const isActive = (path: string) => {
     return pathname === path;
   };
-
   const handleLogin = () => {
     router.push("/login");
   };
-
+  const storedToken = typeof window !== "undefined" ? localStorage.getItem("accessToken") : null;
+  const tokenExpire = typeof window !== "undefined" ? localStorage.getItem("tokenExpire") : null;
+  const isTokenValid = storedToken && tokenExpire && new Date() < new Date(tokenExpire);
   return (
     <header className={styles.header}>
       <Link href="/">
@@ -54,5 +48,4 @@ const Header: React.FC = () => {
     </header>
   );
 };
-
 export default Header;
