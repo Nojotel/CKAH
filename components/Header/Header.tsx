@@ -1,15 +1,26 @@
 "use client";
-import React from "react";
+
+import React, { useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import Logo from "@/public/logo.png";
 import styles from "./Header.module.css";
-import Button from "@/components/Button/Button";
 import { usePathname, useRouter } from "next/navigation";
+import { useAuth } from "@/redux/AuthProvider/AuthProvider";
+import Registration from "@/components/Registration/Registration";
+import UserHeader from "@/components/UserHeader/UserHeader";
 
 const Header: React.FC = () => {
   const pathname = usePathname();
   const router = useRouter();
+  const { user, isAuthenticated, accountInfo, logout, getUserInfo, accessToken } = useAuth();
+
+  useEffect(() => {
+    if (accessToken) {
+      getUserInfo(accessToken);
+    }
+  }, [accessToken, getUserInfo]);
+
   const isActive = (path: string) => {
     return pathname === path;
   };
@@ -21,9 +32,7 @@ const Header: React.FC = () => {
   return (
     <header className={styles.header}>
       <Link href="/">
-        <div>
-          <Image className={styles.logo} src={Logo} alt="Логотип" width={110} height={70} priority />
-        </div>
+        <Image className={styles.logo} src={Logo} alt="Логотип" width={110} height={70} priority />
       </Link>
       <nav className={styles.navigation}>
         <ul className={styles.menu}>
@@ -38,13 +47,7 @@ const Header: React.FC = () => {
           </li>
         </ul>
       </nav>
-      <div className={styles.container}>
-        <div className={styles.text} onClick={handleLogin}>
-          Зарегистрироваться
-        </div>
-        <div className={styles.line}></div>
-        <Button buttonText="Войти" className={styles.buttonHeader} onClick={handleLogin} />
-      </div>
+      {isAuthenticated ? <UserHeader user={user} accountInfo={accountInfo} logout={logout} /> : <Registration onClick={handleLogin} />}
     </header>
   );
 };

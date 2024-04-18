@@ -1,0 +1,88 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.accountInfo {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.userAvatarContainer {
+  display: flex;
+  margin-left: 130px;
+}
+
+.containerText {
+  height: 35px;
+  margin-right: 4px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.textName,
+.textLogout {
+  color: var(--colorDark);
+  text-align: right;
+  font-weight: 400;
+}
+
+.textName {
+  opacity: 0.7;
+  font-size: 18px;
+  line-height: 17px;
+}
+
+.textLogout {
+  font-size: 14px;
+  line-height: 12px;
+  opacity: 0.4;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+}
+
+.textLogout:hover {
+  opacity: 1;
+}
+
+.containerCompani {
+  margin-right: 50px;
+  height: 63px;
+  position: fixed;
+  border-radius: 5px;
+  background: rgba(217, 217, 217, 0.3);
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.containerCompaniUseText,
+.containerCompaniLimitText {
+  display: flex;
+  align-items: center;
+  color: rgba(0, 0, 0, 0.4);
+  font-size: 10px;
+  font-weight: 400;
+  line-height: 12px;
+  text-align: right;
+}
+
+.usedCompanyCount,
+.companyLimit {
+  color: var(--colorDark);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 17px;
+  text-align: left;
+  margin-left: 6px;
+}
+
+.companyLimit {
+  color: rgb(138, 197, 64);
+}
