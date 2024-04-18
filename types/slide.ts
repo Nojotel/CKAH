@@ -1,5 +1,4 @@
 import { Slide } from "./types";
-
 import Time from "@/public/Time.svg";
 import Search from "@/public/Search.svg";
 import Shield from "@/public/Shield.svg";

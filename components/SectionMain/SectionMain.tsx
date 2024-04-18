@@ -1,10 +1,24 @@
+"use client";
 import React from "react";
 import styles from "./SectionMain.module.css";
 import Button from "@/components/Button/Button";
 import Image from "next/image";
 import ImgMain from "@/public/SectionMain.jpg";
+import { useAuth } from "@/redux/AuthProvider/AuthProvider";
+import { useRouter } from "next/navigation";
 
 const SectionMain: React.FC = () => {
+  const { isAuthenticated } = useAuth();
+  const router = useRouter();
+
+  const handleButtonClick = () => {
+    if (isAuthenticated) {
+      router.push("/search");
+    } else {
+      router.push("/login");
+    }
+  };
+
   return (
     <section className={styles.container}>
       <div className={styles.containerText}>
@@ -15,7 +29,7 @@ const SectionMain: React.FC = () => {
           по его ИНН
         </h1>
         <h3 className={styles.subTitle}>Комплексный анализ публикаций, получение данных в формате PDF на электронную почту.</h3>
-        <Button buttonText="Запросить данные" className={styles.buttonMain} />
+        <Button buttonText="Запросить данные" className={styles.buttonMain} onClick={handleButtonClick} />
       </div>
       <div className={styles.containerImage}>
         <Image className={styles.img} src={ImgMain} alt="Логотип" width={629} height={593} priority />

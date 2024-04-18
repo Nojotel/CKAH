@@ -10,6 +10,7 @@ export interface Slide {
   description: string;
   imageUrl: string;
 }
+
 export interface Rate {
   id: number;
   title: string;
