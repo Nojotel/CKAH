@@ -1,4 +1,3 @@
-import styles from "./page.module.css";
 import SectionMain from "@/components/SectionMain/SectionMain";
 import WhyUs from "@/components/WhyUs/WhyUs";
 import Sky from "@/components/Sky/Sky";

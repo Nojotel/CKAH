@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import styles from "./RatesCell.module.css";
 import Image from "next/image";
 import Check from "@/public/Check.png";
@@ -6,7 +6,7 @@ import Button from "@/components/Button/Button";
 import rates from "@/types/RatesText";
 import { Rate } from "@/types/types";
 
-const RatesCell: React.FC = () => {
+const RatesCell: React.FC = memo(() => {
   return (
     <div className={styles.container}>
       {rates.map((rate: Rate) => (
@@ -35,6 +35,8 @@ const RatesCell: React.FC = () => {
       ))}
     </div>
   );
-};
+});
+
+RatesCell.displayName = "RatesCell";
 
 export default RatesCell;

@@ -13,7 +13,7 @@ import UserHeader from "@/components/UserHeader/UserHeader";
 const Header: React.FC = () => {
   const pathname = usePathname();
   const router = useRouter();
-  const { user, isAuthenticated, accountInfo, logout, getUserInfo, accessToken } = useAuth();
+  const { user, isAuthenticated, accountInfo, isLoading, logout, getUserInfo, accessToken } = useAuth();
 
   useEffect(() => {
     if (accessToken) {
@@ -47,7 +47,7 @@ const Header: React.FC = () => {
           </li>
         </ul>
       </nav>
-      {isAuthenticated ? <UserHeader user={user} accountInfo={accountInfo} logout={logout} /> : <Registration onClick={handleLogin} />}
+      {isAuthenticated && accountInfo !== null ? <UserHeader user={user} accountInfo={accountInfo} logout={logout} isLoading={isLoading} /> : <Registration onClick={handleLogin} />}
     </header>
   );
 };

@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import Image from "next/image";
 import styles from "./UserHeader.module.css";
 import Avatar from "@/public/Avatar.png";
+import Loader from "@/components/Loader/Loader";
 
 interface UserHeaderProps {
   user: {
@@ -12,9 +13,10 @@ interface UserHeaderProps {
     usedCompanyCount: number;
   } | null;
   logout: () => void;
+  isLoading: boolean;
 }
 
-const UserHeader: React.FC<UserHeaderProps> = ({ user, accountInfo, logout }) => {
+const UserHeader: React.FC<UserHeaderProps> = ({ user, accountInfo, logout, isLoading }) => {
   useEffect(() => {
     if (accountInfo) {
       localStorage.setItem("accountInfo", JSON.stringify(accountInfo));
@@ -24,7 +26,9 @@ const UserHeader: React.FC<UserHeaderProps> = ({ user, accountInfo, logout }) =>
   return (
     <div className={styles.container}>
       <div className={styles.accountInfo}>
-        {accountInfo ? (
+        {isLoading ? (
+          <Loader />
+        ) : accountInfo ? (
           <div className={styles.containerCompani}>
             <div className={styles.containerCompaniUseText}>
               Использовано компаний <span className={styles.usedCompanyCount}>{accountInfo.usedCompanyCount}</span>

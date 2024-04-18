@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   description: "Cервис поиска публикаций о компаниях по ИНН",
 };
 
-export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <body className={inter.className}>
