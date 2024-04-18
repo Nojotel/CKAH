@@ -1,9 +1,10 @@
 "use client";
 import React, { createContext, useContext, useEffect, useCallback } from "react";
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "@/redux/store";
 import { setUser, setAccessToken, setAccountInfo, setIsAuthenticated, setIsLoading } from "@/redux/slices/authSlice";
+import { useAuthLogger } from "@/hooks/useAuthLogger";
 
 interface AuthContextValue {
   login: (email: string, password: string) => Promise<void>;
@@ -19,7 +20,7 @@ interface AuthContextValue {
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const { accessToken } = useSelector((state: RootState) => state.auth);
+  const { accessToken, isAuthenticated } = useSelector((state: RootState) => state.auth);
   const dispatch = useDispatch();
 
   const logout = useCallback(() => {
@@ -100,6 +101,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     initAuth();
   }, [dispatch, getUserInfo, logout, accessToken]);
 
+  useAuthLogger(isAuthenticated, true);
+
   const value = {
     login,
     logout,
@@ -107,7 +110,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     user: useSelector((state: RootState) => state.auth.user),
     accessToken,
     accountInfo: useSelector((state: RootState) => state.auth.accountInfo),
-    isAuthenticated: useSelector((state: RootState) => state.auth.isAuthenticated),
+    isAuthenticated,
     isLoading: useSelector((state: RootState) => state.auth.isLoading),
   };
 

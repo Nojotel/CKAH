@@ -5,7 +5,9 @@
   padding: 70px 0;
   max-width: var(--maxWidth);
 }
+
 .img {
-  width: 1307px;
-  height: 576px;
+  width: 90%;
+  height: auto;
+  object-fit: contain;
 }
