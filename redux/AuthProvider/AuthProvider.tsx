@@ -1,5 +1,5 @@
 "use client";
-import React, { createContext, useContext, useEffect, useCallback } from "react";
+import React, { createContext, useContext, useEffect, useState, useCallback } from "react";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "@/redux/store";
@@ -21,6 +21,7 @@ const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { accessToken, isAuthenticated } = useSelector((state: RootState) => state.auth);
+  const [isAuthChecked, setIsAuthChecked] = useState(false);
   const dispatch = useDispatch();
 
   const logout = useCallback(() => {
@@ -30,6 +31,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     dispatch(setUser(null));
     dispatch(setAccountInfo(null));
     dispatch(setIsAuthenticated(false));
+    setIsAuthChecked(true);
   }, [dispatch]);
 
   const getUserInfo = useCallback(
@@ -44,13 +46,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         dispatch(setUser(response.data.user || null));
         dispatch(setAccountInfo(response.data.eventFiltersInfo || null));
         dispatch(setIsAuthenticated(true));
+        setIsAuthChecked(true);
       } catch (error: any) {
-        if (error.response && error.response.data.errorCode === "Auth_InvalidAccessToken") {
-          console.error("Неправильный токен доступа, выполняем выход из системы");
-          logout();
-        } else {
-          console.error("Не удалось получить информацию пользователя: ", error);
-        }
+        console.error("Не удалось получить информацию пользователя: ", error);
+        logout();
       } finally {
         dispatch(setIsLoading(false));
       }
@@ -88,12 +87,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       const tokenExpire = localStorage.getItem("tokenExpire");
 
       if (storedToken && tokenExpire && new Date() < new Date(tokenExpire)) {
-        dispatch(setAccessToken(storedToken));
         if (!accessToken) {
+          dispatch(setAccessToken(storedToken));
           await getUserInfo(storedToken);
         }
       } else if (storedToken) {
-        console.log("Токен истек или отсутствует, выполняем выход из системы");
         logout();
       }
     };
@@ -101,7 +99,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     initAuth();
   }, [dispatch, getUserInfo, logout, accessToken]);
 
-  useAuthLogger(isAuthenticated, true);
+  useAuthLogger(isAuthenticated, isAuthChecked);
 
   const value = {
     login,
