@@ -2,19 +2,22 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
 }
 
 .accountInfo {
-  position: relative;
+  position: absolute;
+  top: -15px;
+  right: 150px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
 }
-
 .userAvatarContainer {
   display: flex;
-  margin-left: 130px;
+  justify-content: center;
+  align-items: center;
 }
 
 .containerText {
@@ -51,9 +54,9 @@
 }
 
 .containerCompani {
+  width: 110%;
   margin-right: 50px;
   height: 63px;
-  position: fixed;
   border-radius: 5px;
   background: rgba(217, 217, 217, 0.3);
   padding: 15px;
