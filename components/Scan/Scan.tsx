@@ -1,4 +1,3 @@
-// Scan.tsx
 "use client";
 import React, { ChangeEvent, useState, useEffect } from "react";
 import style from "./Scan.module.css";
@@ -90,7 +89,6 @@ const Scan = () => {
   const handleSearchClick = () => {
     console.log("Поиск выполнен с параметрами:", formData);
 
-    // Удаление значений из формы
     setFormData({
       inputValue: "",
       totalityValue: "any",
@@ -108,7 +106,6 @@ const Scan = () => {
       },
     });
 
-    // Удаление значений из cookie
     deleteCookie("inputValue");
     deleteCookie("totalityValue");
     deleteCookie("documentCount");

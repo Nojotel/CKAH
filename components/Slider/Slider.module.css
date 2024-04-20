@@ -52,3 +52,7 @@
   max-width: 1440px;
   width: 100%;
 }
+.container :global(.slick-slide) {
+  width: 440px !important;
+  margin: 20px;
+}
