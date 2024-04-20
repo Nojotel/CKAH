@@ -1,5 +1,5 @@
 export interface ButtonProps {
-  buttonText: string;
+  buttonText: string | undefined;
   className?: string;
   onClick?: () => void;
   style?: React.CSSProperties;
@@ -21,5 +21,6 @@ export interface Rate {
   priceDescription: string;
   features: string[];
   buttonText: string;
+  buttonTextAuthenticated?: string | undefined;
   color: string;
 }

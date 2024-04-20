@@ -1,3 +1,4 @@
+"use client";
 import React, { memo } from "react";
 import styles from "./RatesCell.module.css";
 import Image from "next/image";
@@ -5,8 +6,11 @@ import Check from "@/public/Check.png";
 import Button from "@/components/Button/Button";
 import rates from "@/types/RatesText";
 import { Rate } from "@/types/types";
+import { useAuth } from "@/redux/AuthProvider/AuthProvider";
 
 const RatesCell: React.FC = memo(() => {
+  const { isAuthenticated } = useAuth();
+
   return (
     <div className={styles.container}>
       {rates.map((rate: Rate) => (
@@ -29,7 +33,7 @@ const RatesCell: React.FC = memo(() => {
                 <span className={styles.textCheck}>{feature}</span>
               </div>
             ))}
-            <Button buttonText={rate.buttonText} className={styles.buttonCell} />
+            <Button buttonText={isAuthenticated ? rate.buttonTextAuthenticated : rate.buttonText} className={isAuthenticated ? styles.buttonCell : styles.buttonCellNoAuth} />
           </div>
         </div>
       ))}

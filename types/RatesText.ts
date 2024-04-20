@@ -13,7 +13,8 @@ const rates: Rate[] = [
     oldPrice: 1200,
     priceDescription: "или 150 ₽/мес. при рассрочке на 24 мес.",
     features: ["Безлимитная история запросов", "Безопасная сделка", "Поддержка 24/7"],
-    buttonText: "Перейти в личный кабинет",
+    buttonText: "Подробнее",
+    buttonTextAuthenticated: "Перейти в личный кабинет",
     color: "var(--colorOrange)",
   },
   {
@@ -26,6 +27,7 @@ const rates: Rate[] = [
     priceDescription: "или 279 ₽/мес. при рассрочке на 24 мес.",
     features: ["Все пункты тарифа Beginner", "Экспорт истории", "Рекомендации по приоритетам"],
     buttonText: "Подробнее",
+    buttonTextAuthenticated: "Подробнее",
     color: "var(--colorTeal)",
   },
   {
@@ -38,6 +40,7 @@ const rates: Rate[] = [
     priceDescription: "",
     features: ["Все пункты тарифа Pro", "Безлимитное количество запросов", "Приоритетная поддержка"],
     buttonText: "Подробнее",
+    buttonTextAuthenticated: "Подробнее",
     color: "var(--colorDark)",
   },
 ];
