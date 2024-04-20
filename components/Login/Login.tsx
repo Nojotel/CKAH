@@ -12,9 +12,10 @@ const Login = () => {
   const [emailError, setEmailError] = useState("");
   const [password, setPassword] = useState("");
   const [passwordError, setPasswordError] = useState("");
+  const [loginError, setLoginError] = useState("");
   const [isFormValid, setIsFormValid] = useState(false);
-  const [isAutofilled, setIsAutofilled] = useState(false);
   const router = useRouter();
+  const [isAutofilled, setIsAutofilled] = useState(false);
 
   const handleEmailChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -51,12 +52,11 @@ const Login = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (isFormValid) {
-      try {
-        await login(email, password);
+      const error = await login(email, password);
+      if (error) {
+        setLoginError(error);
+      } else {
         router.push("/");
-      } catch (error) {
-        console.error("Failed to log in", error);
-        alert("Неправильный логин или пароль");
       }
     }
   };
@@ -77,7 +77,7 @@ const Login = () => {
             <label className={styles.labelText}>
               Логин:
               <input type="text" className={`${styles.usernameText} ${emailError ? styles.inputError : ""}`} name="username" value={email} onChange={handleEmailChange} autoComplete="email" />
-              <div className={styles.errorText}>{emailError}</div>
+              <div className={styles.errorText}>{emailError || loginError}</div>
             </label>
             <label className={styles.labelText}>
               Пароль:

@@ -5,8 +5,9 @@ import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "@/redux/store";
 import { setUser, setAccessToken, setAccountInfo, setIsAuthenticated, setIsLoading } from "@/redux/slices/authSlice";
 import { useAuthLogger } from "@/hooks/useAuthLogger";
+
 interface AuthContextValue {
-  login: (email: string, password: string) => Promise<void>;
+  login: (email: string, password: string) => Promise<string | undefined>;
   logout: () => void;
   getUserInfo: (token: string) => Promise<void>;
   user: any;
@@ -15,11 +16,14 @@ interface AuthContextValue {
   isAuthenticated: boolean;
   isLoading: boolean;
 }
+
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
+
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { accessToken, isAuthenticated } = useSelector((state: RootState) => state.auth);
   const [isAuthChecked, setIsAuthChecked] = useState(false);
   const dispatch = useDispatch();
+
   const logout = useCallback(() => {
     localStorage.removeItem("accessToken");
     localStorage.removeItem("tokenExpire");
@@ -29,6 +33,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     dispatch(setIsAuthenticated(false));
     setIsAuthChecked(true);
   }, [dispatch]);
+
   const getUserInfo = useCallback(
     async (token: string) => {
       dispatch(setIsLoading(true));
@@ -51,6 +56,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     },
     [dispatch, logout]
   );
+
   const login = useCallback(
     async (email: string, password: string) => {
       dispatch(setIsLoading(true));
@@ -64,10 +70,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         localStorage.setItem("tokenExpire", expire);
         dispatch(setAccessToken(accessToken));
         await getUserInfo(accessToken);
+        return "Success";
       } catch (error: any) {
         console.error("Ошибка входа: ", error.response?.data || error);
-      } finally {
         dispatch(setIsLoading(false));
+        return "Неправильный логин или пароль";
       }
     },
     [dispatch, getUserInfo]
@@ -77,7 +84,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const storedToken = localStorage.getItem("accessToken");
     const tokenExpire = localStorage.getItem("tokenExpire");
     const isTokenValid = storedToken && tokenExpire && new Date() < new Date(tokenExpire);
-
     if (isTokenValid) {
       dispatch(setAccessToken(storedToken));
       dispatch(setIsAuthenticated(true));
@@ -87,6 +93,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }, [dispatch, logout]);
 
   useAuthLogger(isAuthenticated, isAuthChecked);
+
   const value = {
     login,
     logout,
@@ -97,6 +104,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     isAuthenticated,
     isLoading: useSelector((state: RootState) => state.auth.isLoading),
   };
+
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 
