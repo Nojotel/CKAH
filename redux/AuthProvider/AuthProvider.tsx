@@ -2,6 +2,7 @@
 import React, { createContext, useContext, useEffect, useState, useCallback } from "react";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
+import { useRouter } from "next/navigation";
 import { RootState } from "@/redux/store";
 import { setUser, setAccessToken, setAccountInfo, setIsAuthenticated, setIsLoading } from "@/redux/slices/authSlice";
 import { useAuthLogger } from "@/hooks/useAuthLogger";
@@ -23,6 +24,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const { accessToken, isAuthenticated } = useSelector((state: RootState) => state.auth);
   const [isAuthChecked, setIsAuthChecked] = useState(false);
   const dispatch = useDispatch();
+  const router = useRouter();
 
   const logout = useCallback(() => {
     localStorage.removeItem("accessToken");
@@ -70,14 +72,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         localStorage.setItem("tokenExpire", expire);
         dispatch(setAccessToken(accessToken));
         await getUserInfo(accessToken);
-        return "Success";
+        router.push("/");
+        return "Успешный вход";
       } catch (error: any) {
         console.error("Ошибка входа: ", error.response?.data || error);
         dispatch(setIsLoading(false));
         return "Неправильный логин или пароль";
       }
     },
-    [dispatch, getUserInfo]
+    [dispatch, getUserInfo, router]
   );
 
   useEffect(() => {
