@@ -9,12 +9,30 @@ interface User {
   name: string;
 }
 
+interface FormData {
+  inputValue: string;
+  totalityValue: string;
+  documentCount: string;
+  startDate: string;
+  endDate: string;
+  options: {
+    maxRelevance: boolean;
+    mentionInBusinessContext: boolean;
+    mainRoleInPublication: boolean;
+    publicationsOnlyWithRiskFactors: boolean;
+    includeTechnicalNews: boolean;
+    includeAnnouncementsAndCalendars: boolean;
+    includeNewsDigests: boolean;
+  };
+}
+
 interface AuthState {
   user: User | null;
   accessToken: string | null;
   accountInfo: AccountInfo | null;
   isAuthenticated: boolean;
   isLoading: boolean;
+  formData: FormData | null;
 }
 
 const initialState: AuthState = {
@@ -23,6 +41,7 @@ const initialState: AuthState = {
   accountInfo: null,
   isAuthenticated: false,
   isLoading: false,
+  formData: null,
 };
 
 const authSlice = createSlice({
@@ -44,8 +63,11 @@ const authSlice = createSlice({
     setIsLoading: (state, action: PayloadAction<boolean>) => {
       state.isLoading = action.payload;
     },
+    setFormData: (state, action: PayloadAction<FormData | null>) => {
+      state.formData = action.payload;
+    },
   },
 });
 
-export const { setUser, setAccessToken, setAccountInfo, setIsAuthenticated, setIsLoading } = authSlice.actions;
+export const { setUser, setAccessToken, setAccountInfo, setIsAuthenticated, setIsLoading, setFormData } = authSlice.actions;
 export default authSlice.reducer;

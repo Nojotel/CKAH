@@ -1,0 +1,128 @@
+.scanContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 44px;
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+  background: #fff;
+  margin-bottom: 70px;
+}
+
+.inputSection,
+.optionsSection {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.optionsSection {
+  justify-content: space-between;
+}
+
+.input {
+  box-sizing: border-box;
+  border: 1px solid #c7c7c7;
+  border-radius: 5px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+  background: #fff;
+  width: 242px;
+  height: 43px;
+  margin-top: 20px;
+  margin-bottom: 30px;
+  padding-left: 22px;
+}
+
+.label {
+  color: var(--colorDark);
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 22px;
+  margin-bottom: 15px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.searchButton {
+  width: 305px;
+  background: var(--colorBlue);
+  color: var(--colorWhite);
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 24px;
+  text-align: center;
+  padding: 15px 40px;
+  border: 0;
+  border-radius: 5px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  margin-left: auto;
+  margin-bottom: 5px;
+}
+
+.searchButton:hover {
+  background-color: var(--colorOrange);
+  color: var(--colorDark);
+}
+
+.ps {
+  color: #949494;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 17px;
+  text-align: right;
+  margin-left: auto;
+}
+
+.dateRange {
+  display: flex;
+}
+
+.dateRange input {
+  width: 150px;
+  margin-right: 20px;
+}
+
+.buttonContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: flex-end;
+  margin-left: auto;
+  height: 170px;
+}
+
+.checkbox {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  width: 20px;
+  height: 20px;
+  border: 1px solid #000;
+  border-radius: 4px;
+  outline: none;
+  cursor: pointer;
+  position: relative;
+}
+
+.checkbox:checked {
+  background-color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.checkbox:checked::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 6px;
+  height: 12px;
+  border: solid #45c11e;
+  border-width: 0 3px 3px 0;
+  transform: translate(-50%, -60%) rotate(45deg);
+}

@@ -73,7 +73,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     [dispatch, getUserInfo]
   );
 
-  // In your AuthProvider component
   useEffect(() => {
     const storedToken = localStorage.getItem("accessToken");
     const tokenExpire = localStorage.getItem("tokenExpire");
