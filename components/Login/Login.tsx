@@ -3,7 +3,7 @@ import React, { useState, useCallback, useEffect } from "react";
 import styles from "./Login.module.css";
 import Image from "next/image";
 import { validateEmail, validatePassword } from "@/utils/ValidationUtils";
-import { useAuth } from "@/redux/AuthProvider/AuthProvider";
+import { useAuth } from "@/hooks/AuthProvider";
 import { useRouter } from "next/navigation";
 
 const Login = () => {
@@ -12,10 +12,9 @@ const Login = () => {
   const [emailError, setEmailError] = useState("");
   const [password, setPassword] = useState("");
   const [passwordError, setPasswordError] = useState("");
-  const [loginError, setLoginError] = useState("");
   const [isFormValid, setIsFormValid] = useState(false);
-  const router = useRouter();
   const [isAutofilled, setIsAutofilled] = useState(false);
+  const router = useRouter();
 
   const handleEmailChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -52,11 +51,12 @@ const Login = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (isFormValid) {
-      const error = await login(email, password);
-      if (error) {
-        setLoginError(error);
-      } else {
+      try {
+        await login(email, password);
         router.push("/");
+      } catch (error) {
+        console.error("Failed to log in", error);
+        alert("Неправильный логин или пароль");
       }
     }
   };
@@ -66,12 +66,6 @@ const Login = () => {
       getUserInfo(accessToken);
     }
   }, [accessToken, getUserInfo]);
-
-  useEffect(() => {
-    if (user) {
-      router.push("/");
-    }
-  }, [user, router]);
 
   return (
     <div className={styles.container}>
@@ -83,7 +77,7 @@ const Login = () => {
             <label className={styles.labelText}>
               Логин:
               <input type="text" className={`${styles.usernameText} ${emailError ? styles.inputError : ""}`} name="username" value={email} onChange={handleEmailChange} autoComplete="email" />
-              <div className={styles.errorText}>{emailError || loginError}</div>
+              <div className={styles.errorText}>{emailError}</div>
             </label>
             <label className={styles.labelText}>
               Пароль:

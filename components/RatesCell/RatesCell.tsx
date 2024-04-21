@@ -6,7 +6,7 @@ import Check from "@/public/Check.png";
 import Button from "@/components/Button/Button";
 import rates from "@/types/RatesText";
 import { Rate } from "@/types/types";
-import { useAuth } from "@/redux/AuthProvider/AuthProvider";
+import { useAuth } from "@/hooks/AuthProvider";
 
 const RatesCell: React.FC = memo(() => {
   const { isAuthenticated } = useAuth();
