@@ -8,10 +8,12 @@ import { usePathname, useRouter } from "next/navigation";
 import { useAuth } from "@/hooks/AuthProvider";
 import Registration from "@/components/Registration/Registration";
 import UserHeader from "@/components/UserHeader/UserHeader";
+
 const Header: React.FC = () => {
   const pathname = usePathname();
   const router = useRouter();
   const { user, isAuthenticated, accountInfo, logout, accessToken, getUserInfo } = useAuth();
+
   useEffect(() => {
     if (accessToken) {
       getUserInfo(accessToken);
@@ -21,12 +23,22 @@ const Header: React.FC = () => {
   const isActive = (path: string) => {
     return pathname === path;
   };
+
   const handleLogin = () => {
     router.push("/login");
   };
+
   const storedToken = typeof window !== "undefined" ? localStorage.getItem("accessToken") : null;
   const tokenExpire = typeof window !== "undefined" ? localStorage.getItem("tokenExpire") : null;
   const isTokenValid = storedToken && tokenExpire && new Date() < new Date(tokenExpire);
+
+  let headerComponent;
+  if (isAuthenticated && accountInfo !== null) {
+    headerComponent = <UserHeader user={user} accountInfo={accountInfo} logout={logout} />;
+  } else {
+    headerComponent = <Registration onClick={handleLogin} />;
+  }
+
   return (
     <header className={styles.header}>
       <Link href="/">
@@ -45,8 +57,9 @@ const Header: React.FC = () => {
           </li>
         </ul>
       </nav>
-      {isAuthenticated && accountInfo !== null ? <UserHeader user={user} accountInfo={accountInfo} logout={logout} /> : <Registration onClick={handleLogin} />}
+      {headerComponent}
     </header>
   );
 };
+
 export default Header;
