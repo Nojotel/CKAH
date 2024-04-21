@@ -20,9 +20,7 @@ const Header: React.FC = () => {
     }
   }, [accessToken, getUserInfo]);
 
-  const isActive = (path: string) => {
-    return pathname === path;
-  };
+  const isActive = (path: string) => pathname === path;
 
   const handleLogin = () => {
     router.push("/login");
@@ -30,14 +28,8 @@ const Header: React.FC = () => {
 
   const storedToken = typeof window !== "undefined" ? localStorage.getItem("accessToken") : null;
   const tokenExpire = typeof window !== "undefined" ? localStorage.getItem("tokenExpire") : null;
-  const isTokenValid = storedToken && tokenExpire && new Date() < new Date(tokenExpire);
 
-  let headerComponent;
-  if (isAuthenticated && accountInfo !== null) {
-    headerComponent = <UserHeader user={user} accountInfo={accountInfo} logout={logout} />;
-  } else {
-    headerComponent = <Registration onClick={handleLogin} />;
-  }
+  const headerComponent = isAuthenticated && accountInfo !== null ? <UserHeader user={user} accountInfo={accountInfo} logout={logout} /> : <Registration onClick={handleLogin} />;
 
   return (
     <header className={styles.header}>
