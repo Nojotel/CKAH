@@ -2,7 +2,7 @@
 import React, { createContext, useContext, useEffect, useState, useCallback } from "react";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { RootState } from "@/redux/store";
 import { setUser, setAccessToken, setAccountInfo, setIsAuthenticated, setIsLoading } from "@/redux/slices/authSlice";
 import { useAuthLogger } from "@/hooks/useAuthLogger";
@@ -25,6 +25,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [isAuthChecked, setIsAuthChecked] = useState(false);
   const dispatch = useDispatch();
   const router = useRouter();
+  const pathname = usePathname();
 
   const logout = useCallback(() => {
     localStorage.removeItem("accessToken");
@@ -34,7 +35,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     dispatch(setAccountInfo(null));
     dispatch(setIsAuthenticated(false));
     setIsAuthChecked(true);
-  }, [dispatch]);
+    router.push("/");
+  }, [dispatch, router]);
 
   const getUserInfo = useCallback(
     async (token: string) => {
@@ -94,6 +96,18 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       logout();
     }
   }, [dispatch, logout]);
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      if (pathname === "/login") {
+        router.push("/");
+      }
+    } else {
+      if (pathname === "/search") {
+        router.push("/");
+      }
+    }
+  }, [isAuthenticated, pathname, router]);
 
   useAuthLogger(isAuthenticated, isAuthChecked);
 

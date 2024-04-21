@@ -67,6 +67,12 @@ const Login = () => {
     }
   }, [accessToken, getUserInfo]);
 
+  useEffect(() => {
+    if (user) {
+      router.push("/");
+    }
+  }, [user, router]);
+
   return (
     <div className={styles.container}>
       {user ? (
