@@ -3,6 +3,9 @@ import React, { ChangeEvent, useState, useEffect } from "react";
 import style from "./Scan.module.css";
 import Button from "@/components/Button/Button";
 import { getCookie, setCookie, deleteCookie } from "@/redux/cookies/cookieUtils";
+import validateInn from "@/utils/InnValidation";
+import { validateDocumentCount } from "@/utils/ValidationUtils";
+import { validateDateRange } from "@/utils/ValidationUtils";
 
 interface FormData {
   inputValue: string;
@@ -39,6 +42,10 @@ const Scan = () => {
     },
   });
 
+  const [inputValueError, setInputValueError] = useState<string>("");
+  const [documentCountError, setDocumentCountError] = useState<string>("");
+  const [dateRangeError, setDateRangeError] = useState<string>("");
+
   useEffect(() => {
     const inputValue = getCookie("inputValue");
     const totalityValue = getCookie("totalityValue");
@@ -67,6 +74,15 @@ const Scan = () => {
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
+    if (name === "inputValue") {
+      const error = validateInn(value);
+      setInputValueError(error ? error.message : "");
+    } else if (name === "documentCount") {
+      setDocumentCountError(validateDocumentCount(value));
+    } else if (name === "startDate" || name === "endDate") {
+      const { startDate, endDate } = formData;
+      setDateRangeError(validateDateRange(startDate, endDate));
+    }
     setFormData((prevState) => ({
       ...prevState,
       [name]: value,
@@ -126,7 +142,8 @@ const Scan = () => {
     <div className={style.scanContainer}>
       <div className={style.inputSection}>
         <label>ИНН компании *</label>
-        <input type="text" name="inputValue" value={inputValue} onChange={handleInputChange} placeholder="10 цифр" maxLength={10} className={style.input} />
+        <input type="text" name="inputValue" value={inputValue} onChange={handleInputChange} placeholder="10 цифр" maxLength={10} className={`${style.input} ${inputValueError ? style.inputError : ""}`} />
+        {inputValueError && <div className={style.errorTextInn}>{inputValueError}</div>}
         <label>Тональность</label>
         <select name="totalityValue" value={totalityValue} onChange={handleInputChange} className={style.input}>
           <option value="any">Любая</option>
@@ -134,12 +151,14 @@ const Scan = () => {
           <option value="negative">Негативная</option>
         </select>
         <label>Количество документов в выдаче *</label>
-        <input type="text" name="documentCount" value={documentCount} onChange={handleInputChange} placeholder="от 1 до 1000" min={1} max={1000} className={style.input} />
+        <input type="text" name="documentCount" value={documentCount} onChange={handleInputChange} placeholder="от 1 до 1000" min={1} max={1000} className={`${style.input} ${documentCountError ? style.inputError : ""}`} />
+        {documentCountError && <div className={style.errorTextTotality}>{documentCountError}</div>}
         <label>Диапазон поиска</label>
         <div className={style.dateRange}>
           <input type="date" name="startDate" value={startDate} onChange={handleInputChange} className={style.input} />
           <input type="date" name="endDate" value={endDate} onChange={handleInputChange} className={style.input} />
         </div>
+        {dateRangeError && <div className={style.errorTextDate}>{dateRangeError}</div>}
       </div>
       <div className={style.optionsSection}>
         <label className={style.label}>

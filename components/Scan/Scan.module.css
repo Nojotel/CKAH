@@ -9,6 +9,10 @@
   margin-bottom: 70px;
 }
 
+.inputSection {
+  position: relative;
+}
+
 .inputSection,
 .optionsSection {
   display: flex;
@@ -31,6 +35,15 @@
   margin-top: 20px;
   margin-bottom: 30px;
   padding-left: 22px;
+}
+
+.input:focus {
+  outline: none;
+  border: 2px solid var(--colorOrange);
+}
+
+.inputError {
+  border: 1px solid rgb(255, 89, 89) !important;
 }
 
 .label {
@@ -125,4 +138,44 @@
   border: solid #45c11e;
   border-width: 0 3px 3px 0;
   transform: translate(-50%, -60%) rotate(45deg);
+}
+
+.errorTextInn {
+  position: absolute;
+  top: 85px;
+  left: 0;
+  width: 100%;
+  color: rgb(255, 89, 89);
+  text-align: left;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 17px;
+}
+
+.errorTextTotality {
+  position: absolute;
+  top: 310px;
+  left: 0;
+  width: 100%;
+  color: rgb(255, 89, 89);
+  text-align: left;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 17px;
+}
+
+.errorTextDate {
+  position: absolute;
+  top: 425px;
+  left: 0;
+  width: 100%;
+  color: rgb(255, 89, 89);
+  text-align: left;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 17px;
+}
+
+.inputSection {
+  position: relative;
 }

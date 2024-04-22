@@ -39,13 +39,14 @@ const Login = () => {
   useEffect(() => {
     if (email === "" && password === "") {
       setIsFormValid(false);
+    } else {
+      setIsFormValid(true);
     }
   }, [email, password]);
 
   useEffect(() => {
-    if (document.activeElement instanceof HTMLInputElement) {
-      setIsAutofilled(document.activeElement.autocomplete === "on");
-    }
+    const isInputAutofilled = document.querySelector("input:-webkit-autofill");
+    setIsAutofilled(!!isInputAutofilled);
   }, []);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
