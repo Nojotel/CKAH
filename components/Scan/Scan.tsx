@@ -46,6 +46,9 @@ const Scan = () => {
   const [documentCountError, setDocumentCountError] = useState<string>("");
   const [dateRangeError, setDateRangeError] = useState<string>("");
 
+  const hasErrors = !!inputValueError || !!documentCountError || !!dateRangeError || !formData.inputValue || !formData.documentCount;
+  const searchButtonClassName = hasErrors ? `${style.searchButton} ${style.searchButtonDisabled}` : style.searchButton;
+
   useEffect(() => {
     const inputValue = getCookie("inputValue");
     const totalityValue = getCookie("totalityValue");
@@ -75,8 +78,8 @@ const Scan = () => {
   const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     if (name === "inputValue") {
-      const error = validateInn(value);
-      setInputValueError(error ? error.message : "");
+      const validationError = validateInn(value);
+      setInputValueError(validationError ? validationError.message : "");
     } else if (name === "documentCount") {
       setDocumentCountError(validateDocumentCount(value));
     } else if (name === "startDate" || name === "endDate") {
@@ -190,7 +193,7 @@ const Scan = () => {
           Включать сводки новостей
         </label>
         <div className={style.buttonContainer}>
-          <Button buttonText="Поиск" onClick={handleSearchClick} className={style.searchButton} />
+          <Button buttonText="Поиск" onClick={handleSearchClick} className={searchButtonClassName} disabled={hasErrors} />
           <div className={style.ps}>* Обязательные к заполнению поля</div>
         </div>
       </div>

@@ -3,6 +3,7 @@ export interface ButtonProps {
   className?: string;
   onClick?: () => void;
   style?: React.CSSProperties;
+  disabled?: boolean;
 }
 
 export interface Slide {

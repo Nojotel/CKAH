@@ -39,7 +39,7 @@
 
 .input:focus {
   outline: none;
-  border: 2px solid var(--colorOrange);
+  border: 2px solid var(--colorTeal);
 }
 
 .inputError {
@@ -178,4 +178,8 @@
 
 .inputSection {
   position: relative;
+}
+.submitDisabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
