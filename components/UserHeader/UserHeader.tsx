@@ -1,7 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import styles from "./UserHeader.module.css";
+import loaderStyles from "@/components/Loader/LoaderHeader.module.css";
 import Avatar from "@/public/Avatar.png";
+import MDSpinner from "react-md-spinner";
+import { ssrBehavior } from "react-md-spinner";
+
 interface UserHeaderProps {
   user: {
     name: string;
@@ -11,15 +15,33 @@ interface UserHeaderProps {
     usedCompanyCount: number;
   } | null;
   logout: () => void;
+  isLoading: boolean;
 }
-const UserHeader: React.FC<UserHeaderProps> = ({ user, accountInfo, logout }) => {
+
+const UserHeader: React.FC<UserHeaderProps> = ({ user, accountInfo, logout, isLoading }) => {
+  const [isLoadingAccountInfo, setIsLoadingAccountInfo] = useState(false);
+
+  useEffect(() => {
+    setIsLoadingAccountInfo(true);
+    const timeout = setTimeout(() => {
+      setIsLoadingAccountInfo(false);
+    }, 2000);
+
+    return () => clearTimeout(timeout);
+  }, []);
+
   useEffect(() => {
     localStorage.removeItem("accountInfo");
   }, []);
+
   return (
     <div className={styles.container}>
       <div className={styles.accountInfo}>
-        {accountInfo ? (
+        {isLoadingAccountInfo ? (
+          <div className={loaderStyles.loaderContainer}>
+            <MDSpinner />
+          </div>
+        ) : accountInfo ? (
           <div className={styles.containerCompani}>
             <div className={styles.containerCompaniUseText}>
               Использовано компаний <span className={styles.usedCompanyCount}>{accountInfo.usedCompanyCount}</span>
@@ -44,4 +66,5 @@ const UserHeader: React.FC<UserHeaderProps> = ({ user, accountInfo, logout }) =>
     </div>
   );
 };
+
 export default UserHeader;

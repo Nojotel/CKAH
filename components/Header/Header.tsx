@@ -12,7 +12,7 @@ import UserHeader from "@/components/UserHeader/UserHeader";
 const Header: React.FC = () => {
   const pathname = usePathname();
   const router = useRouter();
-  const { user, isAuthenticated, accountInfo, logout, accessToken, getUserInfo } = useAuth();
+  const { user, isAuthenticated, accountInfo, logout, accessToken, getUserInfo, isLoading, isAuthCheckingInProgress } = useAuth();
 
   useEffect(() => {
     if (accessToken) {
@@ -26,10 +26,11 @@ const Header: React.FC = () => {
     router.push("/login");
   };
 
-  const storedToken = typeof window !== "undefined" ? localStorage.getItem("accessToken") : null;
-  const tokenExpire = typeof window !== "undefined" ? localStorage.getItem("tokenExpire") : null;
+  if (isAuthCheckingInProgress) {
+    return null;
+  }
 
-  const headerComponent = isAuthenticated && accountInfo !== null ? <UserHeader user={user} accountInfo={accountInfo} logout={logout} /> : <Registration onClick={handleLogin} />;
+  const headerComponent = isAuthenticated && accountInfo !== null ? <UserHeader user={user} accountInfo={accountInfo} logout={logout} isLoading={isLoading} /> : <Registration onClick={handleLogin} />;
 
   return (
     <header className={styles.header}>

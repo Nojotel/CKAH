@@ -108,7 +108,6 @@ const Scan = () => {
   const handleSearchClick = () => {
     console.log("Поиск выполнен с параметрами:", formData);
 
-    // Сброс значений формы
     setFormData({
       inputValue: "",
       totalityValue: "any",
@@ -126,12 +125,10 @@ const Scan = () => {
       },
     });
 
-    // Сброс ошибок ввода
     setInputValueError("");
     setDocumentCountError("");
     setDateRangeError("");
 
-    // Удаление cookies
     deleteCookie("inputValue");
     deleteCookie("totalityValue");
     deleteCookie("documentCount");

@@ -11,9 +11,7 @@ import { useRouter } from "next/navigation";
 const Search = () => {
   const router = useRouter();
 
-  // Пример обработки события поиска
   const handleSearch = () => {
-    // Логика поиска или перехода на другую страницу
     router.push("/search-results");
   };
 

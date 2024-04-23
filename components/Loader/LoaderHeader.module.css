@@ -1,0 +1,11 @@
+.loaderContainer {
+  width: 200px;
+  margin-right: 50px;
+  height: 63px;
+  border-radius: 5px;
+  background: rgba(217, 217, 217, 0.3);
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}

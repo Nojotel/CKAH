@@ -5,7 +5,6 @@ import { useSelector, useDispatch } from "react-redux";
 import { useRouter, usePathname } from "next/navigation";
 import { RootState } from "@/redux/store";
 import { setUser, setAccessToken, setAccountInfo, setIsAuthenticated, setIsLoading } from "@/redux/slices/authSlice";
-import { useAuthLogger } from "@/hooks/useAuthLogger";
 
 interface AuthContextValue {
   login: (email: string, password: string) => Promise<string | undefined>;
@@ -16,6 +15,7 @@ interface AuthContextValue {
   accountInfo: any;
   isAuthenticated: boolean;
   isLoading: boolean;
+  isAuthCheckingInProgress: boolean;
 }
 
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
@@ -23,6 +23,7 @@ const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { accessToken, isAuthenticated } = useSelector((state: RootState) => state.auth);
   const [isAuthChecked, setIsAuthChecked] = useState(false);
+  const [isAuthCheckingInProgress, setIsAuthCheckingInProgress] = useState(false);
   const dispatch = useDispatch();
   const router = useRouter();
   const pathname = usePathname();
@@ -89,15 +90,19 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const storedToken = localStorage.getItem("accessToken");
     const tokenExpire = localStorage.getItem("tokenExpire");
     const isTokenValid = storedToken && tokenExpire && new Date() < new Date(tokenExpire);
+
+    setIsAuthCheckingInProgress(true);
+
     if (isTokenValid) {
       dispatch(setAccessToken(storedToken));
       dispatch(setIsAuthenticated(true));
     } else if (storedToken) {
       logout();
+      dispatch(setIsAuthenticated(false));
     }
-  }, [dispatch, logout]);
 
-  useAuthLogger(isAuthenticated, isAuthChecked);
+    setIsAuthCheckingInProgress(false);
+  }, [dispatch, logout]);
 
   const value = {
     login,
@@ -108,6 +113,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     accountInfo: useSelector((state: RootState) => state.auth.accountInfo),
     isAuthenticated,
     isLoading: useSelector((state: RootState) => state.auth.isLoading),
+    isAuthCheckingInProgress,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
