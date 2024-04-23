@@ -179,7 +179,11 @@
 .inputSection {
   position: relative;
 }
-.submitDisabled {
+.searchButtonDisabled {
   opacity: 0.5;
   cursor: not-allowed;
+}
+.searchButtonDisabled:hover {
+  background: var(--colorBlue);
+  color: var(--colorWhite);
 }

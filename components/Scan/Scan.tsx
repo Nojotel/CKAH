@@ -46,7 +46,7 @@ const Scan = () => {
   const [documentCountError, setDocumentCountError] = useState<string>("");
   const [dateRangeError, setDateRangeError] = useState<string>("");
 
-  const hasErrors = !!inputValueError || !!documentCountError || !!dateRangeError || !formData.inputValue || !formData.documentCount;
+  const hasErrors = !!inputValueError || !!documentCountError || !!dateRangeError || !formData.inputValue || !formData.documentCount || (!formData.startDate && !formData.endDate);
   const searchButtonClassName = hasErrors ? `${style.searchButton} ${style.searchButtonDisabled}` : style.searchButton;
 
   useEffect(() => {
@@ -108,6 +108,7 @@ const Scan = () => {
   const handleSearchClick = () => {
     console.log("Поиск выполнен с параметрами:", formData);
 
+    // Сброс значений формы
     setFormData({
       inputValue: "",
       totalityValue: "any",
@@ -125,6 +126,12 @@ const Scan = () => {
       },
     });
 
+    // Сброс ошибок ввода
+    setInputValueError("");
+    setDocumentCountError("");
+    setDateRangeError("");
+
+    // Удаление cookies
     deleteCookie("inputValue");
     deleteCookie("totalityValue");
     deleteCookie("documentCount");

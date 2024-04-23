@@ -1,12 +1,22 @@
+"use client";
 import React from "react";
 import styles from "./page.module.css";
 import Image from "next/image";
-import Document from "@/public/Document.svg";
-import Folders from "@/public/Folders.svg";
-import Rocket from "@/public/Rocket.svg";
+import DocumentIcon from "@/public/Document.svg";
+import FoldersIcon from "@/public/Folders.svg";
+import RocketIcon from "@/public/Rocket.svg";
 import Scan from "@/components/Scan/Scan";
+import { useRouter } from "next/navigation";
 
 const Search = () => {
+  const router = useRouter();
+
+  // Пример обработки события поиска
+  const handleSearch = () => {
+    // Логика поиска или перехода на другую страницу
+    router.push("/search-results");
+  };
+
   return (
     <>
       <div className={styles.container}>
@@ -18,13 +28,13 @@ const Search = () => {
           </p>
         </div>
         <div className={styles.containerImage}>
-          <Image className={styles.imgDocument} src={Document} alt="Картинка документа" width={91} height={111} />
-          <Image className={styles.imgFolders} src={Folders} alt="Картинка папки" width={140} height={68} />
+          <Image className={styles.imgDocument} src={DocumentIcon} alt="Иконка документа" width={91} height={111} />
+          <Image className={styles.imgFolders} src={FoldersIcon} alt="Иконка папки" width={140} height={68} />
         </div>
       </div>
       <div className={styles.container}>
         <Scan />
-        <Image className={styles.imgRocket} src={Rocket} alt="Картинка ракеты" width={442} height={470} />
+        <Image className={styles.imgRocket} src={RocketIcon} alt="Иконка ракеты" width={442} height={470} />
       </div>
     </>
   );

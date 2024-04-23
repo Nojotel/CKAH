@@ -97,18 +97,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   }, [dispatch, logout]);
 
-  useEffect(() => {
-    if (isAuthenticated) {
-      if (pathname === "/login") {
-        router.push("/");
-      }
-    } else {
-      if (pathname === "/search") {
-        router.push("/");
-      }
-    }
-  }, [isAuthenticated, pathname, router]);
-
   useAuthLogger(isAuthenticated, isAuthChecked);
 
   const value = {

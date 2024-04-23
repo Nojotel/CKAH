@@ -24,11 +24,11 @@ export const validateDateRange = (startDate: string, endDate: string): string =>
   const endDateObj = new Date(endDate);
 
   if (isNaN(startDateObj.getTime())) {
-    return "Введите дату";
+    return "Введите корректную дату начала";
   }
 
   if (isNaN(endDateObj.getTime())) {
-    return "Дата окончания не является валидной датой";
+    return "Введите корректную дату окончания";
   }
 
   if (startDateObj > currentDate) {
