@@ -21,25 +21,25 @@ export const validateDocumentCount = (documentCount: string): string => {
 export const validateDateRange = (startDate: string, endDate: string): string => {
   const currentDate = new Date();
   const startDateObj = new Date(startDate);
-  const endDateObj = new Date(endDate);
+  const endDateObj = endDate ? new Date(endDate) : null;
 
-  if (isNaN(startDateObj.getTime())) {
-    return "Введите корректную дату начала";
+  if (endDateObj === null) {
+    return "Введите корректную дату начала и окончания";
   }
 
-  if (isNaN(endDateObj.getTime())) {
-    return "Введите корректную дату окончания";
+  if (isNaN(startDateObj.getTime())) {
+    return "Введите корректную дату начала и окончания";
   }
 
   if (startDateObj > currentDate) {
     return "Дата начала не может быть в будущем";
   }
 
-  if (endDateObj > currentDate) {
+  if (endDate && endDateObj > currentDate) {
     return "Дата окончания не может быть в будущем";
   }
 
-  if (startDateObj > endDateObj) {
+  if (endDate && startDateObj > endDateObj) {
     return "Дата начала не может быть позже даты окончания";
   }
 

@@ -9,7 +9,7 @@ export const getCookie = (name: string): string | null => {
 
 export const setCookie = (name: string, value: string, days: number = 7): void => {
   const expires = new Date(Date.now() + days * 864e5).toUTCString();
-  document.cookie = `${name}=${encodeURIComponent(value)}; expires=${expires}; path=/`;
+  document.cookie = `${name}=${encodeURIComponent(value)}; expires=${expires}; path=/; SameSite=Lax`;
 };
 
 export const deleteCookie = (name: string): void => {

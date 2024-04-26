@@ -1,11 +1,13 @@
 "use client";
+
 import React, { ChangeEvent, useState, useEffect } from "react";
 import style from "./Scan.module.css";
 import Button from "@/components/Button/Button";
-import { getCookie, setCookie, deleteCookie } from "@/redux/cookies/cookieUtils";
 import validateInn from "@/utils/InnValidation";
-import { validateDocumentCount } from "@/utils/ValidationUtils";
-import { validateDateRange } from "@/utils/ValidationUtils";
+import { validateDocumentCount, validateDateRange } from "@/utils/ValidationUtils";
+import { useRouter } from "next/navigation";
+import { useDispatch } from "react-redux";
+import { setSearchParams } from "@/redux/slices/searchSlice";
 
 interface FormData {
   inputValue: string;
@@ -14,17 +16,14 @@ interface FormData {
   startDate: string;
   endDate: string;
   options: {
-    maxRelevance: boolean;
-    mentionInBusinessContext: boolean;
-    mainRoleInPublication: boolean;
-    publicationsOnlyWithRiskFactors: boolean;
-    includeTechnicalNews: boolean;
-    includeAnnouncementsAndCalendars: boolean;
-    includeNewsDigests: boolean;
+    [key: string]: boolean;
   };
 }
 
 const Scan = () => {
+  const router = useRouter();
+  const dispatch = useDispatch();
+
   const [formData, setFormData] = useState<FormData>({
     inputValue: "",
     totalityValue: "any",
@@ -50,30 +49,15 @@ const Scan = () => {
   const searchButtonClassName = hasErrors ? `${style.searchButton} ${style.searchButtonDisabled}` : style.searchButton;
 
   useEffect(() => {
-    const inputValue = getCookie("inputValue");
-    const totalityValue = getCookie("totalityValue");
-    const documentCount = getCookie("documentCount");
-    const startDate = getCookie("startDate");
-    const endDate = getCookie("endDate");
-    const options = {
-      maxRelevance: getCookie("maxRelevance") === "true",
-      mentionInBusinessContext: getCookie("mentionInBusinessContext") === "true",
-      mainRoleInPublication: getCookie("mainRoleInPublication") === "true",
-      publicationsOnlyWithRiskFactors: getCookie("publicationsOnlyWithRiskFactors") === "true",
-      includeTechnicalNews: getCookie("includeTechnicalNews") === "true",
-      includeAnnouncementsAndCalendars: getCookie("includeAnnouncementsAndCalendars") === "true",
-      includeNewsDigests: getCookie("includeNewsDigests") === "true",
-    };
-
-    setFormData({
-      inputValue: inputValue ?? "",
-      totalityValue: totalityValue ?? "any",
-      documentCount: documentCount ?? "",
-      startDate: startDate ?? "",
-      endDate: endDate ?? "",
-      options,
-    });
+    const storedData = localStorage.getItem("formData");
+    if (storedData) {
+      setFormData(JSON.parse(storedData));
+    }
   }, []);
+
+  useEffect(() => {
+    localStorage.setItem("formData", JSON.stringify(formData));
+  }, [formData]);
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -90,7 +74,6 @@ const Scan = () => {
       ...prevState,
       [name]: value,
     }));
-    setCookie(name, value);
   };
 
   const handleCheckboxChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -102,11 +85,24 @@ const Scan = () => {
         [name]: checked,
       },
     }));
-    setCookie(name, checked.toString());
   };
 
   const handleSearchClick = () => {
     console.log("Поиск выполнен с параметрами:", formData);
+
+    const formattedData = {
+      ...formData,
+      options: {
+        maxRelevance: formData.options.maxRelevance,
+        mentionInBusinessContext: formData.options.mentionInBusinessContext,
+        mainRoleInPublication: formData.options.mainRoleInPublication,
+        publicationsOnlyWithRiskFactors: formData.options.publicationsOnlyWithRiskFactors,
+        includeTechnicalNews: formData.options.includeTechnicalNews,
+        includeAnnouncementsAndCalendars: formData.options.includeAnnouncementsAndCalendars,
+        includeNewsDigests: formData.options.includeNewsDigests,
+      },
+    };
+    dispatch(setSearchParams(formattedData));
 
     setFormData({
       inputValue: "",
@@ -129,18 +125,7 @@ const Scan = () => {
     setDocumentCountError("");
     setDateRangeError("");
 
-    deleteCookie("inputValue");
-    deleteCookie("totalityValue");
-    deleteCookie("documentCount");
-    deleteCookie("startDate");
-    deleteCookie("endDate");
-    deleteCookie("maxRelevance");
-    deleteCookie("mentionInBusinessContext");
-    deleteCookie("mainRoleInPublication");
-    deleteCookie("publicationsOnlyWithRiskFactors");
-    deleteCookie("includeTechnicalNews");
-    deleteCookie("includeAnnouncementsAndCalendars");
-    deleteCookie("includeNewsDigests");
+    router.push("/search-results");
   };
 
   const { inputValue, totalityValue, documentCount, startDate, endDate, options } = formData;
@@ -152,7 +137,7 @@ const Scan = () => {
         <input type="text" name="inputValue" value={inputValue} onChange={handleInputChange} placeholder="10 цифр" maxLength={10} className={`${style.input} ${inputValueError ? style.inputError : ""}`} />
         {inputValueError && <div className={style.errorTextInn}>{inputValueError}</div>}
         <label>Тональность</label>
-        <select name="totalityValue" value={totalityValue} onChange={handleInputChange} className={style.input}>
+        <select name="negative" value={totalityValue} onChange={handleInputChange} className={style.input}>
           <option value="any">Любая</option>
           <option value="positive">Позитивная</option>
           <option value="negative">Негативная</option>
@@ -168,37 +153,39 @@ const Scan = () => {
         {dateRangeError && <div className={style.errorTextDate}>{dateRangeError}</div>}
       </div>
       <div className={style.optionsSection}>
-        <label className={style.label}>
-          <input type="checkbox" name="maxRelevance" checked={options.maxRelevance} onChange={handleCheckboxChange} className={style.checkbox} />
-          Признак максимальной полноты
-        </label>
-        <label className={style.label}>
-          <input type="checkbox" name="mentionInBusinessContext" checked={options.mentionInBusinessContext} onChange={handleCheckboxChange} className={style.checkbox} />
-          Упоминания в бизнес-контексте
-        </label>
-        <label className={style.label}>
-          <input type="checkbox" name="mainRoleInPublication" checked={options.mainRoleInPublication} onChange={handleCheckboxChange} className={style.checkbox} />
-          Главная роль в публикации
-        </label>
-        <label className={style.label}>
-          <input type="checkbox" name="publicationsOnlyWithRiskFactors" checked={options.publicationsOnlyWithRiskFactors} onChange={handleCheckboxChange} className={style.checkbox} />
-          Публикации только с риск-факторами
-        </label>
-        <label className={style.label}>
-          <input type="checkbox" name="includeTechnicalNews" checked={options.includeTechnicalNews} onChange={handleCheckboxChange} className={style.checkbox} />
-          Включать технические новости рынков
-        </label>
-        <label className={style.label}>
-          <input type="checkbox" name="includeAnnouncementsAndCalendars" checked={options.includeAnnouncementsAndCalendars} onChange={handleCheckboxChange} className={style.checkbox} />
-          Включать анонсы и календари
-        </label>
-        <label className={style.label}>
-          <input type="checkbox" name="includeNewsDigests" checked={options.includeNewsDigests} onChange={handleCheckboxChange} className={style.checkbox} />
-          Включать сводки новостей
-        </label>
-        <div className={style.buttonContainer}>
-          <Button buttonText="Поиск" onClick={handleSearchClick} className={searchButtonClassName} disabled={hasErrors} />
-          <div className={style.ps}>* Обязательные к заполнению поля</div>
+        <div className={style.optionsSection}>
+          <label key="maxRelevance" className={style.label}>
+            <input type="checkbox" name="maxRelevance" checked={options.maxRelevance} onChange={handleCheckboxChange} className={style.checkbox} />
+            Признак максимальной полноты
+          </label>
+          <label key="mentionInBusinessContext" className={style.label}>
+            <input type="checkbox" name="mentionInBusinessContext" checked={options.mentionInBusinessContext} onChange={handleCheckboxChange} className={style.checkbox} />
+            Упоминания в бизнес-контексте
+          </label>
+          <label key="mainRoleInPublication" className={style.label}>
+            <input type="checkbox" name="mainRoleInPublication" checked={options.mainRoleInPublication} onChange={handleCheckboxChange} className={style.checkbox} />
+            Главная роль в публикации
+          </label>
+          <label key="publicationsOnlyWithRiskFactors" className={style.label}>
+            <input type="checkbox" name="publicationsOnlyWithRiskFactors" checked={options.publicationsOnlyWithRiskFactors} onChange={handleCheckboxChange} className={style.checkbox} />
+            Публикации только с риск-факторами
+          </label>
+          <label key="includeTechnicalNews" className={style.label}>
+            <input type="checkbox" name="includeTechnicalNews" checked={options.includeTechnicalNews} onChange={handleCheckboxChange} className={style.checkbox} />
+            Включать технические новости рынков
+          </label>
+          <label key="includeAnnouncementsAndCalendars" className={style.label}>
+            <input type="checkbox" name="includeAnnouncementsAndCalendars" checked={options.includeAnnouncementsAndCalendars} onChange={handleCheckboxChange} className={style.checkbox} />
+            Включать анонсы и календари
+          </label>
+          <label key="includeNewsDigests" className={style.label}>
+            <input type="checkbox" name="includeNewsDigests" checked={options.includeNewsDigests} onChange={handleCheckboxChange} className={style.checkbox} />
+            Включать сводки новостей
+          </label>
+          <div className={style.buttonContainer}>
+            <Button buttonText="Поиск" onClick={handleSearchClick} className={searchButtonClassName} disabled={hasErrors} />
+            <div className={style.ps}>* Обязательные к заполнению поля</div>
+          </div>
         </div>
       </div>
     </div>
