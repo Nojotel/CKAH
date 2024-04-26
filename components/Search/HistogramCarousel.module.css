@@ -1,0 +1,57 @@
+.container {
+  /* Your container styles */
+}
+
+.title {
+  color: var(--colorDark);
+  font-family: Ferry;
+  font-size: 30px;
+  font-weight: 900;
+  line-height: 36px;
+  text-align: left;
+  margin-bottom: 12px;
+}
+
+.subTitle {
+  color: rgb(148, 148, 148);
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 22px;
+  text-align: left;
+  margin-bottom: 27px;
+}
+
+.carousel {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.prevButton,
+.nextButton {
+  width: 39px;
+  height: 39px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 0;
+  background-color: transparent;
+}
+
+.carouselInner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.carouselItem {
+  /* Your carousel item styles */
+}
+
+.buttonCarousel {
+  /* Your button carousel styles */
+}
+
+.nextButton {
+  /* Your next button styles */
+}

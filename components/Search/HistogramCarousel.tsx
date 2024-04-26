@@ -4,21 +4,26 @@ import axios from "axios";
 import styles from "./HistogramCarousel.module.css";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
+import Image from "next/image";
+import nextButton from "@/public/nextButton.png";
+import prevButton from "@/public/prevButton.png";
 
 interface HistogramData {
   date: string;
-  value: number;
+  totalDocuments: number;
+  riskFactors: number;
 }
 
 interface HistogramResponse {
   data: {
-    data: HistogramData[];
+    data: { date: string; value: number; histogramType: string }[];
     histogramType: string;
   }[];
 }
 
 const HistogramCarousel: React.FC = () => {
   const [histogramData, setHistogramData] = useState<HistogramData[]>([]);
+  const [currentIndex, setCurrentIndex] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const { accessToken } = useSelector((state: RootState) => state.auth);
   const searchParams = useSelector((state: RootState) => state.search.params);
@@ -75,10 +80,16 @@ const HistogramCarousel: React.FC = () => {
           }
         );
 
-        const totalDocumentsData = response.data.data.find((item) => item.histogramType === "totalDocuments")?.data;
-        const riskFactorsData = response.data.data.find((item) => item.histogramType === "riskFactors")?.data;
+        const totalDocs = response.data.data.find((item) => item.histogramType === "totalDocuments")?.data || [];
+        const risks = response.data.data.find((item) => item.histogramType === "riskFactors")?.data || [];
 
-        setHistogramData([...(totalDocumentsData || []), ...(riskFactorsData || [])]);
+        const combinedData = totalDocs.map((doc, index) => ({
+          date: doc.date,
+          totalDocuments: doc.value,
+          riskFactors: risks[index]?.value || 0,
+        }));
+
+        setHistogramData(combinedData);
       } catch (error) {
         console.error("Ошибка получения сводки:", error);
       } finally {
@@ -91,23 +102,42 @@ const HistogramCarousel: React.FC = () => {
     }
   }, [accessToken, searchParams]);
 
+  const handlePrevClick = () => {
+    setCurrentIndex((prevIndex) => (prevIndex === 0 ? histogramData.length - 1 : prevIndex - 1));
+  };
+
+  const handleNextClick = () => {
+    setCurrentIndex((prevIndex) => (prevIndex === histogramData.length - 1 ? 0 : prevIndex + 1));
+  };
+
   if (isLoading) {
     return <div>Загрузка...</div>;
   }
 
   return (
-    <div className={styles.carousel}>
-      <div className={styles.carouselInner}>
-        {histogramData.map((data, index) => (
-          <div key={index} className={styles.carouselItem}>
-            <p>Дата: {data.date}</p>
-            <p>Количество публикаций: {data.value}</p>
-          </div>
-        ))}
+    <>
+      <div className={styles.container}>
+        <div className={styles.title}>Общая сводка</div>
+        <div className={styles.subTitle}>Найдено {histogramData.length} вариантов</div>
       </div>
-      <button className={styles.prevButton}>Предыдущий</button>
-      <button className={styles.nextButton}>Следующий</button>
-    </div>
+      <div className={styles.carousel}>
+        <button className={styles.prevButton} onClick={handlePrevClick}>
+          <Image className={styles.buttonCarousel} src={prevButton} alt="Предыдущий" width={39} height={39} />
+        </button>
+        <div className={styles.carouselInner}>
+          {histogramData.map((data, index) => (
+            <div key={index} className={`${styles.carouselItem} ${index === currentIndex ? styles.active : ""}`}>
+              <p>Период {data.date}</p>
+              <p>Всего {data.totalDocuments}</p>
+              <p>Риски {data.riskFactors}</p>
+            </div>
+          ))}
+        </div>
+        <button className={styles.nextButton} onClick={handleNextClick}>
+          <Image className={styles.buttonCarousel} src={nextButton} alt="Следующий" width={39} height={39} />
+        </button>
+      </div>
+    </>
   );
 };
 
