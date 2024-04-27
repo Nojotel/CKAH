@@ -2,7 +2,6 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 70px;
 }
 
 .containerText {
@@ -28,7 +27,16 @@
   max-width: 817px;
   margin: 25px 0;
 }
-
+.titleSmall {
+  color: var(--colorDark);
+  font-family: Ferry;
+  font-size: 30px;
+  font-weight: 900;
+  line-height: 48px;
+  text-align: left;
+  max-width: 817px;
+  margin: 25px 0;
+}
 .subTitle {
   color: var(--colorDark);
   font-size: 20px;

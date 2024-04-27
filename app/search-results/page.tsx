@@ -19,7 +19,9 @@ const SearchResults = () => {
         </div>
       </div>
       <div className={styles.containerResult}>
+        <h3 className={styles.titleSmall}>Общая сводка</h3>
         <HistogramCarousel />
+        <h3 className={styles.titleSmall}>Список документов</h3>
         <PublicationList />
       </div>
     </>

@@ -1,0 +1,27 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.publicationList {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 38px;
+  margin-bottom: 54px;
+}
+.showMoreButton {
+  border-radius: 5px;
+  background: rgb(89, 112, 255);
+
+  color: rgb(255, 255, 255);
+  font-size: 22px;
+  font-weight: 500;
+  line-height: 27px;
+  text-align: center;
+  border: 0;
+  padding: 16px 53px;
+  margin: 54px auto;
+  display: block;
+}

@@ -4,7 +4,6 @@
   align-items: center;
   max-width: var(--maxWidth);
   height: var(--headerHeight);
-  padding: 0 60px;
   position: relative;
 }
 

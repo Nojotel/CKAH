@@ -7,6 +7,8 @@ import { RootState } from "@/redux/store";
 import Image from "next/image";
 import nextButton from "@/public/nextButton.png";
 import prevButton from "@/public/prevButton.png";
+import MDSpinner from "react-md-spinner";
+import Slider from "react-slick";
 
 interface HistogramData {
   date: string;
@@ -84,7 +86,7 @@ const HistogramCarousel: React.FC = () => {
         const risks = response.data.data.find((item) => item.histogramType === "riskFactors")?.data || [];
 
         const combinedData = totalDocs.map((doc, index) => ({
-          date: doc.date,
+          date: formatDate(doc.date),
           totalDocuments: doc.value,
           riskFactors: risks[index]?.value || 0,
         }));
@@ -110,32 +112,68 @@ const HistogramCarousel: React.FC = () => {
     setCurrentIndex((prevIndex) => (prevIndex === histogramData.length - 1 ? 0 : prevIndex + 1));
   };
 
-  if (isLoading) {
-    return <div>Загрузка...</div>;
-  }
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    const day = date.getDate().toString().padStart(2, "0");
+    const month = (date.getMonth() + 1).toString().padStart(2, "0");
+    const year = date.getFullYear();
+    return `${day}.${month}.${year}`;
+  };
+
+  const settings = {
+    dots: false,
+    infinite: histogramData.length > 1,
+    speed: 500,
+    slidesToShow: Math.min(histogramData.length, 8),
+    slidesToScroll: 1,
+    nextArrow: (
+      <button className={styles.nextButton} onClick={handleNextClick}>
+        <Image className={styles.buttonCarousel} src={nextButton} alt="Следующий" width={39} height={39} />
+      </button>
+    ),
+    prevArrow: (
+      <button className={styles.prevButton} onClick={handlePrevClick}>
+        <Image className={styles.buttonCarousel} src={prevButton} alt="Предыдущий" width={39} height={39} />
+      </button>
+    ),
+    responsive: [
+      {
+        breakpoint: 1235,
+        settings: {
+          slidesToShow: 1,
+        },
+      },
+    ],
+  };
 
   return (
     <>
       <div className={styles.container}>
-        <div className={styles.title}>Общая сводка</div>
         <div className={styles.subTitle}>Найдено {histogramData.length} вариантов</div>
       </div>
       <div className={styles.carousel}>
-        <button className={styles.prevButton} onClick={handlePrevClick}>
-          <Image className={styles.buttonCarousel} src={prevButton} alt="Предыдущий" width={39} height={39} />
-        </button>
-        <div className={styles.carouselInner}>
-          {histogramData.map((data, index) => (
-            <div key={index} className={`${styles.carouselItem} ${index === currentIndex ? styles.active : ""}`}>
-              <p>Период {data.date}</p>
-              <p>Всего {data.totalDocuments}</p>
-              <p>Риски {data.riskFactors}</p>
-            </div>
-          ))}
+        <div className={styles.carouselHeader}>
+          <p className={styles.headerText}>Период</p>
+          <p className={styles.headerText}>Всего</p>
+          <p className={styles.headerText}>Риски</p>
         </div>
-        <button className={styles.nextButton} onClick={handleNextClick}>
-          <Image className={styles.buttonCarousel} src={nextButton} alt="Следующий" width={39} height={39} />
-        </button>
+        <Slider {...settings}>
+          {isLoading ? (
+            <div className={styles.loaderContainer}>
+              <MDSpinner />
+            </div>
+          ) : (
+            histogramData.map((data, index) => (
+              <div key={index} className={styles.carouselItem}>
+                <div className={styles.carouselItemData}>
+                  <p className={styles.dataText}>{data.date}</p>
+                  <p className={styles.dataText}>{data.totalDocuments}</p>
+                  <p className={styles.dataText}>{data.riskFactors}</p>
+                </div>
+              </div>
+            ))
+          )}
+        </Slider>
       </div>
     </>
   );

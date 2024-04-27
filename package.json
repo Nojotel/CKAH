@@ -23,7 +23,8 @@
     "react-slick": "^0.30.2",
     "react-swipeable": "^7.0.1",
     "slick-carousel": "^1.8.1",
-    "swiper": "^11.1.0"
+    "swiper": "^11.1.0",
+    "xml-js": "^1.6.11"
   },
   "devDependencies": {
     "@testing-library/react": "^14.2.2",

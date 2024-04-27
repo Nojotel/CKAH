@@ -1,0 +1,82 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: flex-start;
+  border-radius: 10px;
+
+  box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.2);
+  background: rgb(255, 255, 255);
+  padding: 30px;
+  width: 641px;
+}
+.container {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.date {
+  color: rgb(148, 148, 148);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 19px;
+  text-align: left;
+  margin-right: 14px;
+}
+
+.source {
+  color: rgb(148, 148, 148);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 19px;
+  text-align: left;
+  text-decoration-line: underline;
+}
+
+.title {
+  color: rgb(0, 0, 0);
+  font-size: 26px;
+  font-weight: 500;
+  line-height: 31px;
+  text-align: left;
+  max-width: 520px;
+  margin-bottom: 15px;
+  height: 62px;
+  overflow: hidden;
+}
+
+.content {
+  color: rgb(0, 0, 0);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 19px;
+  opacity: 0.5;
+  max-width: 520px;
+  max-height: 228px;
+  height: 100%;
+  overflow: hidden;
+}
+
+.url {
+  color: rgb(0, 0, 0);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 19px;
+  text-align: center;
+
+  border: 0;
+  border-radius: 5px;
+
+  background: rgb(124, 227, 225);
+  padding: 15px 30px;
+}
+
+.wordCount {
+  color: rgb(148, 148, 148);
+
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 19px;
+}

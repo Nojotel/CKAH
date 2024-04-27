@@ -34,3 +34,7 @@ a {
 ul {
   list-style-type: none;
 }
+.slick-list {
+  max-width: 1440px;
+  width: 100%;
+}

@@ -9,7 +9,7 @@
   align-items: center;
   max-width: var(--maxWidth);
   height: var(--footerHeight);
-  padding: 0 60px;
+
   margin: 0 auto;
   margin-top: auto;
 }

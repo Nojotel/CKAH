@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import PublicationCard from "@/components/PublicationCard/PublicationCard";
 import styles from "./PublicationList.module.css";
+import Loader from "@/components/Loader/Loader";
 
 interface Publication {
   id: string;
@@ -82,8 +83,8 @@ const PublicationList = () => {
           const documents = documentsResponse.data.filter((item: { ok: Publication | null }) => item.ok).map((item: { ok: Publication }) => item.ok);
 
           setPublications(documents);
-          setDisplayedPublications(documents.slice(0, 10));
-          setShowMore(documents.length > 10);
+          setDisplayedPublications(documents.slice(0, 2)); // Изменено
+          setShowMore(documents.length > 2); // Изменено
         }
       } catch (error: any) {
         console.error("Ошибка получения публикаций:", error.message);
@@ -97,30 +98,25 @@ const PublicationList = () => {
 
   const handleShowMore = () => {
     const currentDisplayedCount = displayedPublications.length;
-    setDisplayedPublications((prevPublications) => [...prevPublications, ...publications.slice(currentDisplayedCount, currentDisplayedCount + 10)]);
-    setShowMore(currentDisplayedCount + 10 < publications.length);
+    setDisplayedPublications((prevPublications) => [...prevPublications, ...publications.slice(currentDisplayedCount, currentDisplayedCount + 2)]); // Изменено
+    setShowMore(currentDisplayedCount + 2 < publications.length); // Изменено
   };
 
   return (
     <div>
       {isLoading ? (
-        <div>Загрузка...</div>
+        <Loader />
       ) : (
-        <>
-          <div className={styles.container}>
-            <div className={styles.title}>Список публикаций</div>
-          </div>
-          <div className={styles.publicationList}>
-            {displayedPublications.map((publication) => (
-              <PublicationCard key={publication.id} publication={publication} />
-            ))}
-          </div>
-          {showMore && (
-            <button className={styles.showMoreButton} onClick={handleShowMore}>
-              Показать больше
-            </button>
-          )}
-        </>
+        <div className={styles.publicationList}>
+          {displayedPublications.map((publication) => (
+            <PublicationCard key={publication.id} publication={publication} />
+          ))}
+        </div>
+      )}
+      {showMore && (
+        <button className={styles.showMoreButton} onClick={handleShowMore}>
+          Показать больше
+        </button>
       )}
     </div>
   );
