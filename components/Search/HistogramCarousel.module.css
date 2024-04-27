@@ -50,16 +50,6 @@
   border-right: 2px solid #d4d4d4;
 }
 
-.carouselItem:last-child {
-  border-right: none;
-}
-.buttonCarousel {
-  /* Your button carousel styles */
-}
-
-.nextButton {
-  /* Your next button styles */
-}
 .carouselHeader {
   display: flex;
   flex-direction: column;

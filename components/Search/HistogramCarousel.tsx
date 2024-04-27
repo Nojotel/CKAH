@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import styles from "./HistogramCarousel.module.css";
 import { useSelector } from "react-redux";
@@ -9,6 +9,8 @@ import nextButton from "@/public/nextButton.png";
 import prevButton from "@/public/prevButton.png";
 import MDSpinner from "react-md-spinner";
 import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 interface HistogramData {
   date: string;
@@ -25,10 +27,22 @@ interface HistogramResponse {
 
 const HistogramCarousel: React.FC = () => {
   const [histogramData, setHistogramData] = useState<HistogramData[]>([]);
-  const [currentIndex, setCurrentIndex] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const { accessToken } = useSelector((state: RootState) => state.auth);
   const searchParams = useSelector((state: RootState) => state.search.params);
+  const sliderRef = useRef<Slider>(null);
+
+  const handleNextSlide = () => {
+    if (sliderRef.current) {
+      sliderRef.current.slickNext();
+    }
+  };
+
+  const handlePrevSlide = () => {
+    if (sliderRef.current) {
+      sliderRef.current.slickPrev();
+    }
+  };
 
   useEffect(() => {
     const fetchHistograms = async () => {
@@ -104,14 +118,6 @@ const HistogramCarousel: React.FC = () => {
     }
   }, [accessToken, searchParams]);
 
-  const handlePrevClick = () => {
-    setCurrentIndex((prevIndex) => (prevIndex === 0 ? histogramData.length - 1 : prevIndex - 1));
-  };
-
-  const handleNextClick = () => {
-    setCurrentIndex((prevIndex) => (prevIndex === histogramData.length - 1 ? 0 : prevIndex + 1));
-  };
-
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     const day = date.getDate().toString().padStart(2, "0");
@@ -122,28 +128,12 @@ const HistogramCarousel: React.FC = () => {
 
   const settings = {
     dots: false,
-    infinite: histogramData.length > 1,
+    infinite: false,
     speed: 500,
-    slidesToShow: Math.min(histogramData.length, 8),
+    slidesToShow: 8,
     slidesToScroll: 1,
-    nextArrow: (
-      <button className={styles.nextButton} onClick={handleNextClick}>
-        <Image className={styles.buttonCarousel} src={nextButton} alt="Следующий" width={39} height={39} />
-      </button>
-    ),
-    prevArrow: (
-      <button className={styles.prevButton} onClick={handlePrevClick}>
-        <Image className={styles.buttonCarousel} src={prevButton} alt="Предыдущий" width={39} height={39} />
-      </button>
-    ),
-    responsive: [
-      {
-        breakpoint: 1235,
-        settings: {
-          slidesToShow: 1,
-        },
-      },
-    ],
+    nextArrow: <></>, // Удаление стандартной стрелки "следующий"
+    prevArrow: <></>, // Удаление стандартной стрелки "предыдущий"
   };
 
   return (
@@ -152,28 +142,36 @@ const HistogramCarousel: React.FC = () => {
         <div className={styles.subTitle}>Найдено {histogramData.length} вариантов</div>
       </div>
       <div className={styles.carousel}>
-        <div className={styles.carouselHeader}>
-          <p className={styles.headerText}>Период</p>
-          <p className={styles.headerText}>Всего</p>
-          <p className={styles.headerText}>Риски</p>
-        </div>
-        <Slider {...settings}>
+        <button className={styles.prevButton} onClick={handlePrevSlide}>
+          <Image className={styles.buttonCarousel} src={prevButton} alt="Предыдущий" width={39} height={39} />
+        </button>
+        <div className={styles.carouselInner}>
+          <div className={styles.carouselHeader}>
+            <p className={styles.headerText}>Период</p>
+            <p className={styles.headerText}>Всего</p>
+            <p className={styles.headerText}>Риски</p>
+          </div>
           {isLoading ? (
             <div className={styles.loaderContainer}>
               <MDSpinner />
             </div>
           ) : (
-            histogramData.map((data, index) => (
-              <div key={index} className={styles.carouselItem}>
-                <div className={styles.carouselItemData}>
-                  <p className={styles.dataText}>{data.date}</p>
-                  <p className={styles.dataText}>{data.totalDocuments}</p>
-                  <p className={styles.dataText}>{data.riskFactors}</p>
+            <Slider {...settings} ref={sliderRef}>
+              {histogramData.map((data, index) => (
+                <div className={styles.carouselItem} key={index}>
+                  <div className={styles.carouselItemData}>
+                    <p className={styles.dataText}>{data.date}</p>
+                    <p className={styles.dataText}>{data.totalDocuments}</p>
+                    <p className={styles.dataText}>{data.riskFactors}</p>
+                  </div>
                 </div>
-              </div>
-            ))
+              ))}
+            </Slider>
           )}
-        </Slider>
+        </div>
+        <button className={styles.nextButton} onClick={handleNextSlide}>
+          <Image className={styles.buttonCarousel} src={nextButton} alt="Следующий" width={39} height={39} />
+        </button>
       </div>
     </>
   );
