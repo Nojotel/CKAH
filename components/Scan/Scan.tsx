@@ -24,7 +24,7 @@ const Scan = () => {
   const router = useRouter();
   const dispatch = useDispatch();
 
-  const [formData, setFormData] = useState<FormData>({
+  const initialFormData = {
     inputValue: "",
     totalityValue: "any",
     documentCount: "",
@@ -39,6 +39,12 @@ const Scan = () => {
       includeAnnouncementsAndCalendars: false,
       includeNewsDigests: false,
     },
+  };
+
+  const [formData, setFormData] = useState<FormData>(() => {
+    const isClient = typeof window !== "undefined";
+    const storedData = isClient ? window.localStorage.getItem("formData") : null;
+    return storedData ? JSON.parse(storedData) : initialFormData;
   });
 
   const [inputValueError, setInputValueError] = useState<string>("");
@@ -49,14 +55,11 @@ const Scan = () => {
   const searchButtonClassName = hasErrors ? `${style.searchButton} ${style.searchButtonDisabled}` : style.searchButton;
 
   useEffect(() => {
-    const storedData = localStorage.getItem("formData");
-    if (storedData) {
-      setFormData(JSON.parse(storedData));
+    // Сохранение данных в localStorage при изменении формы
+    const isClient = typeof window !== "undefined";
+    if (isClient) {
+      window.localStorage.setItem("formData", JSON.stringify(formData));
     }
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem("formData", JSON.stringify(formData));
   }, [formData]);
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -104,8 +107,9 @@ const Scan = () => {
     };
     dispatch(setSearchParams(formattedData));
 
-    setFormData({
-      inputValue: "",
+    // Очищаем все поля формы, кроме inputValue (ИНН)
+    setFormData((prevState) => ({
+      ...prevState,
       totalityValue: "any",
       documentCount: "",
       startDate: "",
@@ -119,7 +123,7 @@ const Scan = () => {
         includeAnnouncementsAndCalendars: false,
         includeNewsDigests: false,
       },
-    });
+    }));
 
     setInputValueError("");
     setDocumentCountError("");
