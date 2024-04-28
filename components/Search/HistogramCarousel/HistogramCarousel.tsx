@@ -7,6 +7,8 @@ import { RootState } from "@/redux/store";
 import Image from "next/image";
 import nextButton from "@/public/nextButton.png";
 import prevButton from "@/public/prevButton.png";
+import nextButtonOpacity from "@/public/nextButtonOpacity.png";
+import prevButtonOpacity from "@/public/prevButtonOpacity.png";
 import MDSpinner from "react-md-spinner";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
@@ -28,6 +30,7 @@ interface HistogramResponse {
 const HistogramCarousel: React.FC = () => {
   const [histogramData, setHistogramData] = useState<HistogramData[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [currentSlide, setCurrentSlide] = useState(0);
   const { accessToken } = useSelector((state: RootState) => state.auth);
   const searchParams = useSelector((state: RootState) => state.search.params);
   const sliderRef = useRef<Slider>(null);
@@ -134,7 +137,10 @@ const HistogramCarousel: React.FC = () => {
     slidesToScroll: 1,
     nextArrow: <></>,
     prevArrow: <></>,
+    afterChange: (current: number) => setCurrentSlide(current),
   };
+
+  const isLastSlide = currentSlide >= histogramData.length - settings.slidesToShow;
 
   return (
     <>
@@ -142,8 +148,8 @@ const HistogramCarousel: React.FC = () => {
         <div className={styles.subTitle}>Найдено {histogramData.length} вариантов</div>
       </div>
       <div className={styles.carousel}>
-        <button className={styles.prevButton} onClick={handlePrevSlide}>
-          <Image className={styles.buttonCarousel} src={prevButton} alt="Предыдущий" width={39} height={39} />
+        <button className={styles.prevButton} onClick={handlePrevSlide} disabled={currentSlide === 0}>
+          <Image className={styles.buttonCarousel} src={currentSlide === 0 ? prevButtonOpacity : prevButton} alt="Предыдущий" width={39} height={39} />
         </button>
         <div className={styles.carouselInner}>
           <div className={styles.carouselHeader}>
@@ -169,8 +175,8 @@ const HistogramCarousel: React.FC = () => {
             </Slider>
           )}
         </div>
-        <button className={styles.nextButton} onClick={handleNextSlide}>
-          <Image className={styles.buttonCarousel} src={nextButton} alt="Следующий" width={39} height={39} />
+        <button className={styles.nextButton} onClick={handleNextSlide} disabled={isLastSlide}>
+          <Image className={styles.buttonCarousel} src={isLastSlide ? nextButtonOpacity : nextButton} alt="Следующий" width={39} height={39} />
         </button>
       </div>
     </>

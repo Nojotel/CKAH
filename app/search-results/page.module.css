@@ -55,16 +55,6 @@
   max-width: 817px;
   margin: 25px 0;
 }
-.noResultsSubTitle {
-  color: var(--colorDark);
-  font-family: Ferry;
-  font-size: 20px;
-  font-weight: 900;
-  line-height: 48px;
-  text-align: left;
-  max-width: 817px;
-  margin: 25px 0;
-}
 
 .buttonBack {
   width: 305px;
@@ -79,7 +69,7 @@
   border-radius: 5px;
   transition: background-color 0.3s ease, color 0.3s ease;
   margin-left: auto;
-  margin-bottom: 5px;
+  margin-bottom: 100px;
 }
 
 .buttonBack:hover {

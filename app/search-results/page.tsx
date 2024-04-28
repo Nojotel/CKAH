@@ -44,8 +44,7 @@ const SearchResults = () => {
         ) : (
           <>
             <div className={styles.noResultsTitle}>Поиск не дал результатов 😔</div>
-            <div className={styles.noResultsSubTitle}>Вернуться к поиску</div>
-            <Button buttonText="К поиску" onClick={handleSearchClick} className={styles.buttonBack} />
+            <Button buttonText="Вернуться к поиску" onClick={handleSearchClick} className={styles.buttonBack} />
           </>
         )}
       </div>
