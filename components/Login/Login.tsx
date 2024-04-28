@@ -14,6 +14,7 @@ const Login = () => {
   const [passwordError, setPasswordError] = useState("");
   const [isFormValid, setIsFormValid] = useState(false);
   const [isAutofilled, setIsAutofilled] = useState(false);
+  const [loginError, setLoginError] = useState("");
   const router = useRouter();
 
   const handleEmailChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
@@ -37,14 +38,6 @@ const Login = () => {
   }, [checkFormValidity, email, password]);
 
   useEffect(() => {
-    if (email === "" && password === "") {
-      setIsFormValid(false);
-    } else {
-      setIsFormValid(true);
-    }
-  }, [email, password]);
-
-  useEffect(() => {
     const isInputAutofilled = document.querySelector("input:-webkit-autofill");
     setIsAutofilled(!!isInputAutofilled);
   }, []);
@@ -54,10 +47,14 @@ const Login = () => {
     if (isFormValid) {
       try {
         await login(email, password);
-        router.push("/");
-      } catch (error) {
-        console.error("Failed to log in", error);
-        alert("Неправильный логин или пароль");
+        if (accessToken) {
+          router.push("/");
+        } else {
+          setLoginError("Неправильный логин или пароль");
+        }
+      } catch (error: any) {
+        console.error("Неправильный логин или пароль", error);
+        setLoginError(error.message || "Неправильный логин или пароль");
       }
     }
   };
@@ -85,6 +82,7 @@ const Login = () => {
               <input type="password" className={`${styles.passwordText} ${passwordError ? styles.inputError : ""}`} name="password" value={password} onChange={handlePasswordChange} autoComplete="current-password" />
               <div className={styles.errorText}>{passwordError}</div>
             </label>
+            <div className={styles.errorText}>{loginError}</div>
             <input type="submit" value="Войти" className={`${styles.submit} ${isFormValid || isAutofilled ? "" : styles.submitDisabled}`} disabled={!isFormValid && !isAutofilled} />
           </form>
           <div className={styles.restorePassword}>Восстановить пароль</div>

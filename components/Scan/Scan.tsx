@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
 import { setSearchParams } from "@/redux/slices/searchSlice";
 import { validateInn, validateDocumentCount, validateDateRange } from "@/utils/ValidationUtils";
+import axios from "axios";
 
 interface FormData {
   inputValue: string;
@@ -130,6 +131,7 @@ const Scan = () => {
         },
       };
       dispatch(setSearchParams(formattedData));
+      window.localStorage.setItem("searchParams", JSON.stringify(formattedData));
 
       setFormData((prevState) => ({
         ...prevState,

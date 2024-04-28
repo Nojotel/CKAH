@@ -1,10 +1,33 @@
-import HistogramCarousel from "@/components/Search/HistogramCarousel";
-import PublicationList from "@/components//Search/PublicationList";
+"use client";
+import React, { useEffect } from "react";
+import HistogramCarousel from "@/components/Search/HistogramCarousel/HistogramCarousel";
+import PublicationList from "@/components/Search/PublicationList/PublicationList";
 import styles from "./page.module.css";
 import Image from "next/image";
 import SearchResult from "@/public/SearchResults.svg";
+import axios from "axios";
+
+interface SearchParams {
+  [key: string]: any;
+}
 
 const SearchResults = () => {
+  useEffect(() => {
+    const searchParams: SearchParams = JSON.parse(window.localStorage.getItem("searchParams") || "{}");
+    if (Object.keys(searchParams).length > 0) {
+      fetchSearchResults(searchParams);
+    }
+  }, []);
+
+  const fetchSearchResults = async (searchParams: SearchParams) => {
+    try {
+      const response = await axios.post("/api/search", searchParams);
+      console.log(response.data);
+    } catch (error) {
+      console.error("Ошибка получения результатов поиска:", error);
+    }
+  };
+
   return (
     <>
       <div className={styles.container}>
