@@ -27,7 +27,7 @@ const initialState: SearchState = {
     endDate: "",
     inputValue: "",
     totalityValue: "any",
-    documentCount: "0",
+    documentCount: "",
     options: {
       maxRelevance: false,
       mentionInBusinessContext: false,
