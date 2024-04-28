@@ -63,13 +63,13 @@ export const validateDateRange = (startDate: string, endDate: string): string =>
   }
 
   const currentDate = new Date();
-  currentDate.setHours(0, 0, 0, 0); // Установка текущей даты без учета времени
+  currentDate.setHours(0, 0, 0, 0);
 
   const startDateObj = new Date(startDate);
-  startDateObj.setHours(0, 0, 0, 0); // Установка даты начала без учета времени
+  startDateObj.setHours(0, 0, 0, 0);
 
   const endDateObj = new Date(endDate);
-  endDateObj.setHours(0, 0, 0, 0); // Установка даты окончания без учета времени
+  endDateObj.setHours(0, 0, 0, 0);
 
   if (startDateObj > currentDate || endDateObj > currentDate) {
     return "Даты не должны быть в будущем времени";
