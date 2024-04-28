@@ -132,8 +132,8 @@ const HistogramCarousel: React.FC = () => {
     speed: 500,
     slidesToShow: 8,
     slidesToScroll: 1,
-    nextArrow: <></>, // Удаление стандартной стрелки "следующий"
-    prevArrow: <></>, // Удаление стандартной стрелки "предыдущий"
+    nextArrow: <></>,
+    prevArrow: <></>,
   };
 
   return (

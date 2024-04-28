@@ -71,8 +71,12 @@
 
   background: rgb(124, 227, 225);
   padding: 15px 30px;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
-
+.url:hover {
+  background-color: var(--colorTeal);
+  color: var(--colorWhite);
+}
 .wordCount {
   color: rgb(148, 148, 148);
 

@@ -83,8 +83,8 @@ const PublicationList = () => {
           const documents = documentsResponse.data.filter((item: { ok: Publication | null }) => item.ok).map((item: { ok: Publication }) => item.ok);
 
           setPublications(documents);
-          setDisplayedPublications(documents.slice(0, 2)); // Изменено
-          setShowMore(documents.length > 2); // Изменено
+          setDisplayedPublications(documents.slice(0, 2));
+          setShowMore(documents.length > 2);
         }
       } catch (error: any) {
         console.error("Ошибка получения публикаций:", error.message);
@@ -98,8 +98,8 @@ const PublicationList = () => {
 
   const handleShowMore = () => {
     const currentDisplayedCount = displayedPublications.length;
-    setDisplayedPublications((prevPublications) => [...prevPublications, ...publications.slice(currentDisplayedCount, currentDisplayedCount + 2)]); // Изменено
-    setShowMore(currentDisplayedCount + 2 < publications.length); // Изменено
+    setDisplayedPublications((prevPublications) => [...prevPublications, ...publications.slice(currentDisplayedCount, currentDisplayedCount + 2)]);
+    setShowMore(currentDisplayedCount + 2 < publications.length);
   };
 
   return (

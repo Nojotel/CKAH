@@ -3,11 +3,10 @@
 import React, { ChangeEvent, useState, useEffect } from "react";
 import style from "./Scan.module.css";
 import Button from "@/components/Button/Button";
-import validateInn from "@/utils/InnValidation";
-import { validateDocumentCount, validateDateRange } from "@/utils/ValidationUtils";
 import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
 import { setSearchParams } from "@/redux/slices/searchSlice";
+import { validateInn, validateDocumentCount, validateDateRange } from "@/utils/ValidationUtils";
 
 interface FormData {
   inputValue: string;
@@ -51,32 +50,51 @@ const Scan = () => {
   const [documentCountError, setDocumentCountError] = useState<string>("");
   const [dateRangeError, setDateRangeError] = useState<string>("");
 
-  const hasErrors = !!inputValueError || !!documentCountError || !!dateRangeError || !formData.inputValue || !formData.documentCount || (!formData.startDate && !formData.endDate);
+  const hasErrors = !!inputValueError || !!documentCountError || !!dateRangeError || !formData.inputValue || !formData.documentCount || ((formData.startDate || formData.endDate) && (!formData.startDate || !formData.endDate));
+
   const searchButtonClassName = hasErrors ? `${style.searchButton} ${style.searchButtonDisabled}` : style.searchButton;
 
   useEffect(() => {
-    // Сохранение данных в localStorage при изменении формы
     const isClient = typeof window !== "undefined";
     if (isClient) {
       window.localStorage.setItem("formData", JSON.stringify(formData));
     }
+
+    const { startDate, endDate } = formData;
+    const validationError = validateDateRange(startDate, endDate);
+    setDateRangeError(validationError || "");
   }, [formData]);
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     if (name === "inputValue") {
-      const validationError = validateInn(value);
-      setInputValueError(validationError ? validationError.message : "");
+      const validationResult = validateInn(value);
+      setInputValueError(validationResult ? validationResult.message : "");
+      setFormData((prevState) => ({
+        ...prevState,
+        [name]: value,
+      }));
     } else if (name === "documentCount") {
-      setDocumentCountError(validateDocumentCount(value));
+      const validationError = validateDocumentCount(value);
+      setDocumentCountError(validationError || "");
+      setFormData((prevState) => ({
+        ...prevState,
+        [name]: value,
+      }));
     } else if (name === "startDate" || name === "endDate") {
+      setFormData((prevState) => ({
+        ...prevState,
+        [name]: value,
+      }));
       const { startDate, endDate } = formData;
-      setDateRangeError(validateDateRange(startDate, endDate));
+      const validationError = validateDateRange(startDate, endDate);
+      setDateRangeError(validationError || "");
+    } else if (name === "negative") {
+      setFormData((prevState) => ({
+        ...prevState,
+        totalityValue: value,
+      }));
     }
-    setFormData((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
   };
 
   const handleCheckboxChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -91,45 +109,51 @@ const Scan = () => {
   };
 
   const handleSearchClick = () => {
-    console.log("Поиск выполнен с параметрами:", formData);
+    if (!formData.startDate || !formData.endDate) {
+      setDateRangeError("Оба поля даты должны быть заполнены.");
+      return;
+    }
 
-    const formattedData = {
-      ...formData,
-      options: {
-        maxRelevance: formData.options.maxRelevance,
-        mentionInBusinessContext: formData.options.mentionInBusinessContext,
-        mainRoleInPublication: formData.options.mainRoleInPublication,
-        publicationsOnlyWithRiskFactors: formData.options.publicationsOnlyWithRiskFactors,
-        includeTechnicalNews: formData.options.includeTechnicalNews,
-        includeAnnouncementsAndCalendars: formData.options.includeAnnouncementsAndCalendars,
-        includeNewsDigests: formData.options.includeNewsDigests,
-      },
-    };
-    dispatch(setSearchParams(formattedData));
+    if (!hasErrors) {
+      console.log("Поиск выполнен с параметрами:", formData);
 
-    // Очищаем все поля формы, кроме inputValue (ИНН)
-    setFormData((prevState) => ({
-      ...prevState,
-      totalityValue: "any",
-      documentCount: "",
-      startDate: "",
-      endDate: "",
-      options: {
-        maxRelevance: false,
-        mentionInBusinessContext: false,
-        mainRoleInPublication: false,
-        publicationsOnlyWithRiskFactors: false,
-        includeTechnicalNews: false,
-        includeAnnouncementsAndCalendars: false,
-        includeNewsDigests: false,
-      },
-    }));
+      const formattedData = {
+        ...formData,
+        options: {
+          maxRelevance: formData.options.maxRelevance,
+          mentionInBusinessContext: formData.options.mentionInBusinessContext,
+          mainRoleInPublication: formData.options.mainRoleInPublication,
+          publicationsOnlyWithRiskFactors: formData.options.publicationsOnlyWithRiskFactors,
+          includeTechnicalNews: formData.options.includeTechnicalNews,
+          includeAnnouncementsAndCalendars: formData.options.includeAnnouncementsAndCalendars,
+          includeNewsDigests: formData.options.includeNewsDigests,
+        },
+      };
+      dispatch(setSearchParams(formattedData));
 
-    setInputValueError("");
-    setDocumentCountError("");
-    setDateRangeError("");
+      setFormData((prevState) => ({
+        ...prevState,
+        totalityValue: "any",
+        documentCount: "",
+        startDate: "",
+        endDate: "",
+        options: {
+          maxRelevance: false,
+          mentionInBusinessContext: false,
+          mainRoleInPublication: false,
+          publicationsOnlyWithRiskFactors: false,
+          includeTechnicalNews: false,
+          includeAnnouncementsAndCalendars: false,
+          includeNewsDigests: false,
+        },
+      }));
 
-    router.push("/search-results");
+      setInputValueError("");
+      setDocumentCountError("");
+      setDateRangeError("");
+
+      router.push("/search-results");
+    }
   };
 
   const { inputValue, totalityValue, documentCount, startDate, endDate, options } = formData;
@@ -159,7 +183,7 @@ const Scan = () => {
       <div className={style.optionsSection}>
         <div className={style.optionsSection}>
           <label key="maxRelevance" className={style.label}>
-            <input type="checkbox" name="maxRelevance" checked={options.maxRelevance} onChange={handleCheckboxChange} className={style.checkbox} />
+            <input type="checkbox" name="maxRelevance" checked={options.maxRelevance} onChange={handleCheckboxChange} className={style.checkbox} disabled={!inputValue || !documentCount} />
             Признак максимальной полноты
           </label>
           <label key="mentionInBusinessContext" className={style.label}>
@@ -187,7 +211,7 @@ const Scan = () => {
             Включать сводки новостей
           </label>
           <div className={style.buttonContainer}>
-            <Button buttonText="Поиск" onClick={handleSearchClick} className={searchButtonClassName} disabled={hasErrors} />
+            <Button buttonText="Поиск" onClick={handleSearchClick} className={searchButtonClassName} disabled={!!hasErrors} />
             <div className={style.ps}>* Обязательные к заполнению поля</div>
           </div>
         </div>

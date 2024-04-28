@@ -34,6 +34,13 @@ a {
 ul {
   list-style-type: none;
 }
+.slick-slider {
+  width: inherit;
+  float: left;
+}
+.slick-track {
+  margin-left: 0 !important;
+}
 .slick-list {
   max-width: 1250px;
   width: 100%;

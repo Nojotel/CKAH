@@ -36,7 +36,6 @@ const PublicationCard: React.FC<PublicationCardProps> = ({ publication }) => {
     if (contentXml.scandoc && contentXml.scandoc.sentence) {
       newsText = Array.isArray(contentXml.scandoc.sentence) ? contentXml.scandoc.sentence.map((sentence) => sentence._text).join(" ") : contentXml.scandoc.sentence._text;
     }
-    // Удаление всех HTML-тегов из текста
     newsText = newsText.replace(/<[^>]*>/g, "");
   } else if (content.text) {
     newsText = content.text;

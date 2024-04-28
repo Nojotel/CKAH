@@ -24,4 +24,11 @@
   padding: 16px 53px;
   margin: 54px auto;
   display: block;
+
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.showMoreButton:hover {
+  background-color: var(--colorOrange);
+  color: var(--colorDark);
 }
