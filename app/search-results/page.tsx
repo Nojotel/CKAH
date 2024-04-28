@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import HistogramCarousel from "@/components/Search/HistogramCarousel/HistogramCarousel";
@@ -12,7 +12,8 @@ import { useRouter } from "next/navigation";
 
 const SearchResults = () => {
   const searchParams = useSelector((state: RootState) => state.search.params);
-  const hasResults = searchParams.inputValue && searchParams.startDate && searchParams.endDate && searchParams.documentCount !== "0";
+  const [error, setError] = useState(false);
+  const hasResults = searchParams.documentCount && parseInt(searchParams.documentCount) > 0 && !error;
 
   const router = useRouter();
 
@@ -39,7 +40,7 @@ const SearchResults = () => {
             <h3 className={styles.titleSmall}>Общая сводка</h3>
             <HistogramCarousel />
             <h3 className={styles.titleSmall}>Список документов</h3>
-            <PublicationList />
+            <PublicationList setError={setError} />
           </>
         ) : (
           <>

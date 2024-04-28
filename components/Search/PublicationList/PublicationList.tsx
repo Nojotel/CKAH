@@ -17,7 +17,7 @@ interface Publication {
   attributes: any;
 }
 
-const PublicationList = () => {
+const PublicationList = ({ setError }: { setError: (error: boolean) => void }) => {
   const [publications, setPublications] = useState<Publication[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [showMore, setShowMore] = useState(true);
@@ -88,13 +88,16 @@ const PublicationList = () => {
         }
       } catch (error: any) {
         console.error("Ошибка получения публикаций:", error.message);
+        if (error.response && error.response.status === 400) {
+          setError(true);
+        }
       } finally {
         setIsLoading(false);
       }
     };
 
     fetchPublications();
-  }, [accessToken, searchParams]);
+  }, [accessToken, searchParams, setError]);
 
   const handleShowMore = () => {
     const currentDisplayedCount = displayedPublications.length;
