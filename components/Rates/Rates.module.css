@@ -1,6 +1,7 @@
 .container {
   max-width: var(--maxWidth);
   padding: 60px;
+  margin-left: 10px;
 }
 .title {
   color: var(--colorDark);
@@ -10,4 +11,15 @@
   line-height: 54px;
   letter-spacing: 1%;
   text-align: left;
+}
+@media (max-width: 1549px) {
+  .container {
+    padding: 0px;
+    margin: 0 auto;
+  }
+  .title {
+    font-size: 28px;
+    font-weight: 900;
+    line-height: 34px;
+  }
 }

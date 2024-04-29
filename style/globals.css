@@ -22,7 +22,9 @@
 body {
   max-width: var(--maxWidth);
   margin: 0 auto;
-  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 button {
   cursor: pointer;
@@ -36,7 +38,6 @@ ul {
 }
 .slick-slider {
   width: inherit;
-  float: left;
 }
 .slick-track {
   margin-left: 0 !important;

@@ -5,6 +5,7 @@
   max-width: var(--maxWidth);
   height: var(--headerHeight);
   position: relative;
+  width: 100%;
 }
 
 .navigation {
@@ -57,4 +58,9 @@
 
 .menuItem.active a {
   color: var(--colorTeal);
+}
+@media (max-width: 1549px) {
+  .header {
+    padding: 0 10px;
+  }
 }

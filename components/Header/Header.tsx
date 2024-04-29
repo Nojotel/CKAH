@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import Logo from "@/public/logo.png";
@@ -8,11 +8,26 @@ import { usePathname, useRouter } from "next/navigation";
 import { useAuth } from "@/hooks/AuthProvider";
 import Registration from "@/components/Registration/Registration";
 import UserHeader from "@/components/UserHeader/UserHeader";
+import BurgerMenu from "./BurgerMenu";
 
 const Header: React.FC = () => {
   const pathname = usePathname();
   const router = useRouter();
   const { user, isAuthenticated, accountInfo, logout, accessToken, getUserInfo, isLoading, isAuthCheckingInProgress } = useAuth();
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 1550);
+    };
+
+    handleResize();
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   useEffect(() => {
     if (accessToken) {
@@ -37,20 +52,26 @@ const Header: React.FC = () => {
       <Link href="/">
         <Image className={styles.logo} src={Logo} alt="Логотип" width={110} height={70} priority />
       </Link>
-      <nav className={styles.navigation}>
-        <ul className={styles.menu}>
-          <li className={`${styles.menuItem} ${isActive("/") ? styles.active : ""}`}>
-            <Link href="/">Главная</Link>
-          </li>
-          <li className={`${styles.menuItem} ${isActive("/rates") ? styles.active : ""}`}>
-            <Link href="/rates">Тарифы</Link>
-          </li>
-          <li className={`${styles.menuItem} ${isActive("/FAQ") ? styles.active : ""}`}>
-            <Link href="/FAQ">FAQ</Link>
-          </li>
-        </ul>
-      </nav>
-      {headerComponent}
+      {isMobile ? (
+        <BurgerMenu isAuthenticated={isAuthenticated} headerComponent={headerComponent} />
+      ) : (
+        <>
+          <nav className={styles.navigation}>
+            <ul className={styles.menu}>
+              <li className={`${styles.menuItem} ${isActive("/") ? styles.active : ""}`}>
+                <Link href="/">Главная</Link>
+              </li>
+              <li className={`${styles.menuItem} ${isActive("/rates") ? styles.active : ""}`}>
+                <Link href="/rates">Тарифы</Link>
+              </li>
+              <li className={`${styles.menuItem} ${isActive("/FAQ") ? styles.active : ""}`}>
+                <Link href="/FAQ">FAQ</Link>
+              </li>
+            </ul>
+          </nav>
+          {headerComponent}
+        </>
+      )}
     </header>
   );
 };

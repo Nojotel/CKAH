@@ -1,13 +1,14 @@
 .container {
   height: auto;
   display: flex;
-  align-items: flex-end;
+  align-items: flex-start;
   width: max-content;
 }
 .containerCell {
   border-radius: 10px;
   margin-right: 20px;
   background-color: var(--colorOrange);
+  width: 100%;
 }
 .containerHeader {
   display: flex;
@@ -195,4 +196,41 @@
 
 .containerCell:nth-child(3) .buttonCell:hover {
   opacity: 0.7;
+}
+@media (max-width: 1549px) {
+  .container {
+    flex-direction: column;
+  }
+  .containerCell {
+    margin-bottom: 43px;
+    width: 350px;
+    margin-right: 0px;
+  }
+  .containerHeaderTitle {
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 24px;
+  }
+  .containerHeaderSubTitle {
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 22px;
+  }
+  .containerHeader {
+    position: relative;
+  }
+  .img {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+  }
+  .description {
+    max-width: 100%;
+  }
+  .subTitle {
+    font-size: 18px;
+  }
+  .textCheck {
+    font-size: 16px;
+  }
 }

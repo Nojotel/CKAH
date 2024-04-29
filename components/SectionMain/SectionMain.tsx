@@ -32,7 +32,7 @@ const SectionMain: React.FC = () => {
         <Button buttonText="Запросить данные" className={styles.buttonMain} onClick={handleButtonClick} />
       </div>
       <div className={styles.containerImage}>
-        <Image className={styles.img} src={ImgMain} alt="Логотип" width={629} height={593} priority />
+        <Image className={styles.img} src={ImgMain} alt="Картинка" width={629} height={593} priority />
       </div>
     </section>
   );

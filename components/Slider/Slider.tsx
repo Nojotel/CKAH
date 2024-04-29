@@ -3,21 +3,26 @@ import React, { useEffect, useState } from "react";
 import Slider from "react-slick";
 import styles from "./Slider.module.css";
 import Image from "next/image";
-import Left from "@/public/Left.png";
-import Right from "@/public/Right.png";
+import nextButton from "@/public/nextButton.png";
+import prevButton from "@/public/prevButton.png";
+import nextButtonOpacity from "@/public/nextButtonOpacity.png";
+import prevButtonOpacity from "@/public/prevButtonOpacity.png";
 import slides from "@/types/slide";
+
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
 const CustomSlider: React.FC = () => {
   const [slidesToShow, setSlidesToShow] = useState(3);
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const sliderRef = React.useRef<Slider>(null);
 
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth < 768) {
         setSlidesToShow(1);
-      } else if (window.innerWidth < 1200) {
-        setSlidesToShow(2);
+      } else if (window.innerWidth < 1550) {
+        setSlidesToShow(1);
       } else {
         setSlidesToShow(3);
       }
@@ -29,53 +34,53 @@ const CustomSlider: React.FC = () => {
     };
   }, []);
 
+  const handleNextSlide = () => {
+    if (sliderRef.current) {
+      sliderRef.current.slickNext();
+    }
+  };
+
+  const handlePrevSlide = () => {
+    if (sliderRef.current) {
+      sliderRef.current.slickPrev();
+    }
+  };
+
   const settings = {
     dots: false,
-    infinite: true,
+    infinite: false,
     speed: 500,
     slidesToShow: slidesToShow,
     slidesToScroll: 1,
     draggable: true,
-    nextArrow: <NextArrow />,
-    prevArrow: <PrevArrow />,
+    nextArrow: <></>,
+    prevArrow: <></>,
+    afterChange: (currentSlide: number) => setCurrentSlide(currentSlide),
   };
+
+  const isLastSlide = currentSlide === slides.length - slidesToShow;
+  const isFirstSlide = currentSlide === 0;
 
   return (
     <div className={styles.container}>
+      <button className={styles.prevButton} onClick={handlePrevSlide} disabled={isFirstSlide}>
+        <Image src={isFirstSlide ? prevButtonOpacity : prevButton} alt="Prev" width={39} height={39} />
+      </button>
       {slides.length > 0 && (
-        <Slider {...settings}>
+        <Slider {...settings} ref={sliderRef}>
           {slides.map((slide) => (
-            <div key={slide.id} className={styles.slide}>
-              <Image src={slide.imageUrl} alt={slide.description} width={65} height={79} />
-              <p>{slide.description}</p>
+            <div key={slide.id}>
+              <div className={styles.slide}>
+                <Image src={slide.imageUrl} alt={slide.description} width={65} height={79} />
+                <p className={styles.slideText}>{slide.description}</p>
+              </div>
             </div>
           ))}
         </Slider>
       )}
-    </div>
-  );
-};
-
-const NextArrow: React.FC<{
-  className?: string;
-  style?: React.CSSProperties;
-  onClick?: () => void;
-}> = ({ className, style, onClick }) => {
-  return (
-    <div className={className} style={{ ...style, display: "block" }} onClick={onClick}>
-      <Image src={Right} alt="Next" width={39} height={39} />
-    </div>
-  );
-};
-
-const PrevArrow: React.FC<{
-  className?: string;
-  style?: React.CSSProperties;
-  onClick?: () => void;
-}> = ({ className, style, onClick }) => {
-  return (
-    <div className={className} style={{ ...style, display: "block" }} onClick={onClick}>
-      <Image src={Left} alt="Prev" width={39} height={39} />
+      <button className={styles.nextButton} onClick={handleNextSlide} disabled={isLastSlide}>
+        <Image src={isLastSlide ? nextButtonOpacity : nextButton} alt="Next" width={39} height={39} />
+      </button>
     </div>
   );
 };

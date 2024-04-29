@@ -13,17 +13,23 @@
 
 .slide {
   display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
+  justify-content: center;
   align-items: flex-start;
+  flex-direction: column;
   padding: 25px;
   border-radius: 10px;
   box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.2);
   background: var(--colorWhite);
-  margin: 0 15px;
+  margin: 10px;
   height: 200px;
 }
+.slideText {
+  color: var(--colorDark);
 
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 22px;
+}
 .description {
   color: var(--colorDark);
   font-size: 18px;
@@ -40,7 +46,22 @@
   cursor: pointer;
   z-index: 1;
 }
-
+.prevButton,
+.nextButton {
+  border: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: transparent;
+}
+.prevButton {
+  position: relative;
+  left: 15px;
+}
+.nextButton {
+  position: relative;
+  left: -15px;
+}
 .arrowLeft {
   left: 20px;
 }
@@ -48,11 +69,20 @@
 .arrowRight {
   right: 20px;
 }
-.container :global(.slick-list) {
-  max-width: 1440px;
-  width: 100%;
+
+@media (max-width: 1549px) {
+  .container {
+    width: 320px;
+  }
+  .slide {
+    flex-direction: column;
+    width: 300px;
+  }
+  .slideText {
+    font-size: 16px;
+  }
 }
-.container :global(.slick-slide) {
-  width: 440px !important;
-  margin: 20px;
+
+.slick-slide > div {
+  margin: 0 10px;
 }
