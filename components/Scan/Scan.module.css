@@ -203,4 +203,7 @@
   .buttonContainer {
     height: auto;
   }
+  .errorTextInn {
+    width: 115%;
+  }
 }
