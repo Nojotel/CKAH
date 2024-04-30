@@ -5,6 +5,7 @@ import Image from "next/image";
 import { validateEmail, validatePassword } from "@/utils/ValidationUtils";
 import { useAuth } from "@/hooks/AuthProvider";
 import { useRouter } from "next/navigation";
+import MDSpinner from "react-md-spinner";
 
 const Login = () => {
   const { login, user, accessToken, getUserInfo } = useAuth();
@@ -15,6 +16,7 @@ const Login = () => {
   const [isFormValid, setIsFormValid] = useState(false);
   const [isAutofilled, setIsAutofilled] = useState(false);
   const [loginError, setLoginError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
   const handleEmailChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
@@ -45,6 +47,7 @@ const Login = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (isFormValid) {
+      setIsLoading(true);
       try {
         await login(email, password);
         if (accessToken) {
@@ -55,6 +58,8 @@ const Login = () => {
       } catch (error: any) {
         console.error("Неправильный логин или пароль", error);
         setLoginError(error.message || "Неправильный логин или пароль");
+      } finally {
+        setIsLoading(false);
       }
     }
   };
@@ -83,7 +88,9 @@ const Login = () => {
               <div className={styles.errorText}>{passwordError}</div>
             </label>
             <div className={styles.errorText}>{loginError}</div>
-            <input type="submit" value="Войти" className={`${styles.submit} ${isFormValid || isAutofilled ? "" : styles.submitDisabled}`} disabled={!isFormValid && !isAutofilled} />
+            <button type="submit" className={`${styles.submit} ${isFormValid || isAutofilled ? "" : styles.submitDisabled}`} disabled={!isFormValid && !isAutofilled}>
+              {isLoading ? <MDSpinner /> : "Войти"}
+            </button>
           </form>
           <div className={styles.restorePassword}>Восстановить пароль</div>
         </>

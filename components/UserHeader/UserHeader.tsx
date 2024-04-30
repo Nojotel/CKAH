@@ -4,7 +4,6 @@ import styles from "./UserHeader.module.css";
 import loaderStyles from "@/components/Loader/LoaderHeader.module.css";
 import Avatar from "@/public/Avatar.png";
 import MDSpinner from "react-md-spinner";
-import { ssrBehavior } from "react-md-spinner";
 
 interface UserHeaderProps {
   user: {

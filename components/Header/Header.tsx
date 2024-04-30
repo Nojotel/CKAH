@@ -9,12 +9,15 @@ import { useAuth } from "@/hooks/AuthProvider";
 import Registration from "@/components/Registration/Registration";
 import UserHeader from "@/components/UserHeader/UserHeader";
 import BurgerMenu from "./BurgerMenu";
+import loaderStyles from "@/components/Loader/LoaderHeader.module.css";
+import MDSpinner from "react-md-spinner";
 
 const Header: React.FC = () => {
   const pathname = usePathname();
   const router = useRouter();
   const { user, isAuthenticated, accountInfo, logout, accessToken, getUserInfo, isLoading, isAuthCheckingInProgress } = useAuth();
   const [isMobile, setIsMobile] = useState(false);
+  const [isLoadingAccountInfo, setIsLoadingAccountInfo] = useState(false);
 
   useEffect(() => {
     const handleResize = () => {
@@ -35,6 +38,15 @@ const Header: React.FC = () => {
     }
   }, [accessToken, getUserInfo]);
 
+  useEffect(() => {
+    setIsLoadingAccountInfo(true);
+    const timeout = setTimeout(() => {
+      setIsLoadingAccountInfo(false);
+    }, 2000);
+
+    return () => clearTimeout(timeout);
+  }, []);
+
   const isActive = (path: string) => pathname === path;
 
   const handleLogin = () => {
@@ -53,7 +65,27 @@ const Header: React.FC = () => {
         <Image className={styles.logo} src={Logo} alt="Логотип" width={110} height={70} priority />
       </Link>
       {isMobile ? (
-        <BurgerMenu isAuthenticated={isAuthenticated} headerComponent={headerComponent} />
+        <>
+          {accountInfo && (
+            <div className={styles.accountInfo}>
+              {isLoadingAccountInfo ? (
+                <div className={loaderStyles.loaderContainer}>
+                  <MDSpinner />
+                </div>
+              ) : (
+                <div className={styles.containerCompani}>
+                  <div className={styles.containerCompaniUseText}>
+                    Использовано компаний <span className={styles.usedCompanyCount}>{accountInfo.usedCompanyCount}</span>
+                  </div>
+                  <div className={styles.containerCompaniLimitText}>
+                    Лимит по компаниям <span className={styles.companyLimit}>{accountInfo.companyLimit}</span>
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+          <BurgerMenu isAuthenticated={isAuthenticated} logout={logout} handleLogin={handleLogin} />
+        </>
       ) : (
         <>
           <nav className={styles.navigation}>

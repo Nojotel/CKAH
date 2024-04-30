@@ -39,3 +39,30 @@
   background-color: var(--colorTeal);
   color: var(--colorWhite);
 }
+@media (max-width: 1549px) {
+  .container {
+    flex-direction: column;
+  }
+  .line {
+    display: none;
+  }
+  .text {
+    color: var(--colorWhite);
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 19px;
+    letter-spacing: 1%;
+    text-align: left;
+    opacity: 0.4;
+    cursor: pointer;
+    transition: opacity 0.3s ease;
+    margin-bottom: 15px;
+  }
+  .buttonHeader {
+    width: 250px;
+    padding: 20px;
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 24px;
+  }
+}

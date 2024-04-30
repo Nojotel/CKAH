@@ -28,7 +28,7 @@
 
   font-size: 18px;
   font-weight: 400;
-  line-height: 22px;
+  line-height: 18px;
 }
 .description {
   color: var(--colorDark);
@@ -72,11 +72,11 @@
 
 @media (max-width: 1549px) {
   .container {
-    width: 320px;
+    width: 295px;
   }
   .slide {
     flex-direction: column;
-    width: 300px;
+    width: 270px;
   }
   .slideText {
     font-size: 16px;

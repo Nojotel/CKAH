@@ -187,3 +187,15 @@
   background: var(--colorBlue);
   color: var(--colorWhite);
 }
+@media (max-width: 1549px) {
+  .scanContainer {
+    flex-direction: column;
+    padding: 20px;
+  }
+  .optionsSection {
+    display: none;
+  }
+  .dateRange {
+    flex-direction: column;
+  }
+}
