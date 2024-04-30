@@ -61,6 +61,7 @@
 }
 
 .searchButton {
+  display: block;
   width: 305px;
   background: var(--colorBlue);
   color: var(--colorWhite);
@@ -191,11 +192,15 @@
   .scanContainer {
     flex-direction: column;
     padding: 20px;
+    margin-bottom: 20px;
   }
-  .optionsSection {
+  .label {
     display: none;
   }
   .dateRange {
     flex-direction: column;
+  }
+  .buttonContainer {
+    height: auto;
   }
 }

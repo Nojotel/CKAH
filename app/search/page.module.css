@@ -61,13 +61,9 @@
   .imgFolders {
     display: none;
   }
-  .containerImage {
-    position: relative;
-  }
+
   .imgDocument {
-    position: absolute;
-    right: 70px;
-    bottom: 60px;
+    display: none;
   }
   .title {
     font-size: 28px;
@@ -82,7 +78,9 @@
     max-width: 350px;
   }
   .imgRocket {
-    width: 93%;
+    position: relative;
+    top: 2px;
+    width: 100%;
     height: auto;
     margin-left: 10px;
   }
