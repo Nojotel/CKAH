@@ -106,6 +106,9 @@
   .carousel {
     justify-content: flex-start;
   }
+  .subTitle {
+    padding-left: 10px;
+  }
   .carouselInner {
     flex-direction: column;
     height: 160px;
