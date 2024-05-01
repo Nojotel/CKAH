@@ -76,3 +76,43 @@
   background-color: var(--colorOrange);
   color: var(--colorDark);
 }
+@media (max-width: 1549px) {
+  .container {
+    flex-direction: column;
+  }
+  .title {
+    font-size: 28px;
+    font-weight: 900;
+    line-height: 34px;
+  }
+  .noResultsTitle {
+    font-size: 28px;
+    font-weight: 900;
+    line-height: 34px;
+  }
+  .subTitle {
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 22px;
+  }
+  .titleSmall {
+    font-size: 28px;
+    font-weight: 900;
+    line-height: 34px;
+  }
+  .img {
+    width: 100%;
+    height: auto;
+  }
+  .buttonBack {
+    width: 85%;
+    margin: 0 auto;
+    margin-bottom: 25px;
+  }
+  .containerSmall {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+  }
+}

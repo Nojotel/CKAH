@@ -36,12 +36,12 @@ const SearchResults = () => {
       </div>
       <div className={styles.containerResult}>
         {hasResults ? (
-          <>
+          <div className={styles.containerSmall}>
             <h3 className={styles.titleSmall}>Общая сводка</h3>
             <HistogramCarousel />
             <h3 className={styles.titleSmall}>Список документов</h3>
             <PublicationList setError={setError} />
-          </>
+          </div>
         ) : (
           <>
             <div className={styles.noResultsTitle}>Поиск не дал результатов 😔</div>

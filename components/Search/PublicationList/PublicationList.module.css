@@ -32,3 +32,8 @@
   background-color: var(--colorOrange);
   color: var(--colorDark);
 }
+@media (max-width: 1549px) {
+  .publicationList {
+    flex-direction: column;
+  }
+}

@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import styles from "./HistogramCarousel.module.css";
@@ -31,6 +32,7 @@ const HistogramCarousel: React.FC = () => {
   const [histogramData, setHistogramData] = useState<HistogramData[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [slidesToShow, setSlidesToShow] = useState(8);
   const { accessToken } = useSelector((state: RootState) => state.auth);
   const searchParams = useSelector((state: RootState) => state.search.params);
   const sliderRef = useRef<Slider>(null);
@@ -46,6 +48,23 @@ const HistogramCarousel: React.FC = () => {
       sliderRef.current.slickPrev();
     }
   };
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 768) {
+        setSlidesToShow(1);
+      } else if (window.innerWidth < 1550) {
+        setSlidesToShow(1);
+      } else {
+        setSlidesToShow(8);
+      }
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   useEffect(() => {
     const fetchHistograms = async () => {
@@ -133,7 +152,7 @@ const HistogramCarousel: React.FC = () => {
     dots: false,
     infinite: false,
     speed: 500,
-    slidesToShow: 8,
+    slidesToShow: slidesToShow,
     slidesToScroll: 1,
     nextArrow: <></>,
     prevArrow: <></>,
