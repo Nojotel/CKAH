@@ -33,7 +33,7 @@ const RatesCell: React.FC = memo(() => {
                 <span className={styles.textCheck}>{feature}</span>
               </div>
             ))}
-            <Button buttonText={isAuthenticated ? rate.buttonTextAuthenticated : rate.buttonText} className={isAuthenticated ? styles.buttonCell : styles.buttonCellNoAuth} />
+            <Button buttonText={isAuthenticated ? rate.buttonTextAuthenticated || "" : rate.buttonText || ""} className={isAuthenticated ? styles.buttonCell : styles.buttonCellNoAuth} />
           </div>
         </div>
       ))}
