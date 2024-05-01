@@ -12,7 +12,7 @@ import BurgerMenu from "./BurgerMenu";
 import loaderStyles from "@/components/Loader/LoaderHeader.module.css";
 import MDSpinner from "react-md-spinner";
 
-const Header: React.FC = () => {
+const Header = () => {
   const pathname = usePathname();
   const router = useRouter();
   const { user, isAuthenticated, accountInfo, logout, accessToken, getUserInfo, isLoading, isAuthCheckingInProgress } = useAuth();
@@ -20,42 +20,26 @@ const Header: React.FC = () => {
   const [isLoadingAccountInfo, setIsLoadingAccountInfo] = useState(false);
 
   useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth <= 1550);
-    };
-
+    const handleResize = () => setIsMobile(window.innerWidth <= 1550);
     handleResize();
     window.addEventListener("resize", handleResize);
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   useEffect(() => {
-    if (accessToken) {
-      getUserInfo(accessToken);
-    }
+    if (accessToken) getUserInfo(accessToken);
   }, [accessToken, getUserInfo]);
 
   useEffect(() => {
     setIsLoadingAccountInfo(true);
-    const timeout = setTimeout(() => {
-      setIsLoadingAccountInfo(false);
-    }, 2000);
-
+    const timeout = setTimeout(() => setIsLoadingAccountInfo(false), 2000);
     return () => clearTimeout(timeout);
   }, []);
 
   const isActive = (path: string) => pathname === path;
+  const handleLogin = () => router.push("/login");
 
-  const handleLogin = () => {
-    router.push("/login");
-  };
-
-  if (isAuthCheckingInProgress) {
-    return null;
-  }
+  if (isAuthCheckingInProgress) return null;
 
   const headerComponent = isAuthenticated && accountInfo !== null ? <UserHeader user={user} accountInfo={accountInfo} logout={logout} isLoading={isLoading} /> : <Registration onClick={handleLogin} />;
 

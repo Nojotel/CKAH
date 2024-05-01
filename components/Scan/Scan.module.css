@@ -9,10 +9,6 @@
   margin-bottom: 70px;
 }
 
-.inputSection {
-  position: relative;
-}
-
 .inputSection,
 .optionsSection {
   display: flex;
@@ -20,8 +16,8 @@
   justify-content: space-between;
 }
 
-.optionsSection {
-  justify-content: space-between;
+.inputSection {
+  position: relative;
 }
 
 .input {
@@ -141,68 +137,62 @@
   transform: translate(-50%, -60%) rotate(45deg);
 }
 
-.errorTextInn {
+.errorTextInn,
+.errorTextTotality,
+.errorTextDate {
   position: absolute;
-  top: 85px;
-  left: 0;
   width: 100%;
   color: rgb(255, 89, 89);
   text-align: left;
   font-size: 14px;
   font-weight: 400;
   line-height: 17px;
+}
+
+.errorTextInn {
+  top: 85px;
+  left: 0;
 }
 
 .errorTextTotality {
-  position: absolute;
   top: 310px;
   left: 0;
-  width: 100%;
-  color: rgb(255, 89, 89);
-  text-align: left;
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 17px;
 }
 
 .errorTextDate {
-  position: absolute;
   top: 425px;
   left: 0;
-  width: 100%;
-  color: rgb(255, 89, 89);
-  text-align: left;
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 17px;
 }
 
-.inputSection {
-  position: relative;
-}
 .searchButtonDisabled {
   opacity: 0.5;
   cursor: not-allowed;
 }
+
 .searchButtonDisabled:hover {
   background: var(--colorBlue);
   color: var(--colorWhite);
 }
+
 @media (max-width: 1549px) {
   .scanContainer {
     flex-direction: column;
     padding: 20px;
     margin-bottom: 20px;
   }
+
   .label {
     display: none;
   }
+
   .dateRange {
     flex-direction: column;
   }
+
   .buttonContainer {
     height: auto;
   }
+
   .errorTextInn {
     width: 115%;
   }

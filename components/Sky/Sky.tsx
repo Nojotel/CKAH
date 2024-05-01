@@ -9,17 +9,25 @@ const Sky = () => {
   const [windowWidth, setWindowWidth] = useState(0);
 
   useEffect(() => {
-    setWindowWidth(window.innerWidth);
     const handleResize = () => {
       setWindowWidth(window.innerWidth);
     };
+    handleResize();
     window.addEventListener("resize", handleResize);
     return () => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
 
-  return <section className={styles.container}>{windowWidth < 1500 ? <Image className={styles.img} src={ImgMob} alt="Человек в облаках" width={1307} height={536}></Image> : <Image className={styles.img} src={Img} alt="Человек в облаках" width={1307} height={536}></Image>}</section>;
+  const renderImage = () => {
+    if (windowWidth < 1500) {
+      return <Image className={styles.img} src={ImgMob} alt="Человек в облаках" width={1307} height={536} />;
+    } else {
+      return <Image className={styles.img} src={Img} alt="Человек в облаках" width={1307} height={536} />;
+    }
+  };
+
+  return <section className={styles.container}>{renderImage()}</section>;
 };
 
 export default Sky;

@@ -16,7 +16,6 @@ const Footer = () => {
           Copyright. 2022
         </div>
       </div>
-      <div className={styles.bg}></div>
     </footer>
   );
 };

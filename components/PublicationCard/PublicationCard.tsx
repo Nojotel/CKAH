@@ -51,7 +51,7 @@ const PublicationCard: React.FC<PublicationCardProps> = ({ publication }) => {
       </div>
       <h2 className={styles.title}>{title.text}</h2>
       <Image className={styles.img} src={ImgNews} alt="Картинка новости" width={581} height={158} />
-      <p className={styles.content}>{newsText}</p>
+      <p className={styles.content}>{newsText.replace(/\s+/g, " ")}</p>
       <div className={styles.container}>
         <button className={styles.url}>
           <a href={url} target="_blank" rel="noopener noreferrer">

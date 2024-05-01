@@ -11,10 +11,10 @@ interface RegistrationProps {
 const Registration: React.FC<RegistrationProps> = ({ onClick }) => {
   const dispatch = useDispatch();
 
-  const handleLogin = () => {
+  const handleLogin = React.useCallback(() => {
     onClick();
     dispatch(closeBurgerMenu());
-  };
+  }, [dispatch, onClick]);
 
   return (
     <div className={styles.container}>

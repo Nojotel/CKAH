@@ -11,10 +11,10 @@
   gap: 38px;
   margin-bottom: 54px;
 }
+
 .showMoreButton {
   border-radius: 5px;
   background: rgb(89, 112, 255);
-
   color: rgb(255, 255, 255);
   font-size: 22px;
   font-weight: 500;
@@ -24,7 +24,6 @@
   padding: 16px 53px;
   margin: 54px auto;
   display: block;
-
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
@@ -32,6 +31,7 @@
   background-color: var(--colorOrange);
   color: var(--colorDark);
 }
+
 @media (max-width: 1549px) {
   .publicationList {
     flex-direction: column;

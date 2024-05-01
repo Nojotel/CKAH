@@ -52,13 +52,12 @@
   transform: scaleX(1);
 }
 
-.menuItem a:hover::after {
-  transform: scaleX(1);
-}
-
+.menuItem a:hover::after,
 .menuItem.active a {
+  transform: scaleX(1);
   color: var(--colorTeal);
 }
+
 @media (max-width: 1549px) {
   .header {
     padding: 0 10px;

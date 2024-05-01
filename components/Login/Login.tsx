@@ -73,7 +73,7 @@ const Login = () => {
   return (
     <div className={styles.container}>
       {user ? (
-        <div>{user.name}</div>
+        <div>{(user as { name: string }).name}</div>
       ) : (
         <>
           <form className={styles.form} onSubmit={handleSubmit}>

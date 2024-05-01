@@ -12,11 +12,7 @@ const SectionMain: React.FC = () => {
   const router = useRouter();
 
   const handleButtonClick = () => {
-    if (isAuthenticated) {
-      router.push("/search");
-    } else {
-      router.push("/login");
-    }
+    router.push(isAuthenticated ? "/search" : "/login");
   };
 
   return (

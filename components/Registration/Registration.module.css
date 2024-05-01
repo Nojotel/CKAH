@@ -5,6 +5,7 @@
   justify-content: space-between;
   align-items: center;
 }
+
 .text {
   color: var(--colorDark);
   font-size: 14px;
@@ -15,15 +16,18 @@
   cursor: pointer;
   transition: opacity 0.3s ease;
 }
+
 .text:hover {
   opacity: 1;
 }
+
 .line {
   width: 2px;
   height: 26px;
   background: var(--colorTeal);
   opacity: 0.6;
 }
+
 .buttonHeader {
   border: 0;
   padding: 10px;
@@ -35,17 +39,21 @@
   line-height: 17px;
   transition: background-color 0.3s ease, color 0.3s ease;
 }
+
 .buttonHeader:hover {
   background-color: var(--colorTeal);
   color: var(--colorWhite);
 }
+
 @media (max-width: 1549px) {
   .container {
     flex-direction: column;
   }
+
   .line {
     display: none;
   }
+
   .text {
     color: var(--colorWhite);
     font-size: 16px;
@@ -58,6 +66,7 @@
     transition: opacity 0.3s ease;
     margin-bottom: 15px;
   }
+
   .buttonHeader {
     width: 250px;
     padding: 20px;

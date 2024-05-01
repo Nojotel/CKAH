@@ -13,20 +13,20 @@
   margin-bottom: 25px;
 }
 
-.textLink {
-  color: var(--colorTeal);
+.textLink,
+.textLinkOff {
   font-size: 16px;
   font-weight: 400;
   line-height: 19px;
   text-align: left;
 }
 
+.textLink {
+  color: var(--colorTeal);
+}
+
 .textLinkOff {
   color: rgb(199, 199, 199);
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 19px;
-  text-align: left;
 }
 
 .form {
@@ -85,9 +85,7 @@
   align-items: flex-start;
 }
 
-.containerGoogle,
-.containerFacebook,
-.containerYandex {
+.containerSocial > div {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -159,6 +157,7 @@
 .underlineOff {
   cursor: not-allowed;
 }
+
 .inputError {
   border: 1px solid rgb(255, 89, 89) !important;
 }
@@ -170,32 +169,37 @@
   bottom: -25px;
   left: 0;
   text-align: center;
-
   font-size: 14px;
   font-weight: 400;
   line-height: 17px;
 }
+
 .usernameText:focus,
 .passwordText:focus {
   border: 2px solid var(--colorBlue);
   outline: none;
 }
+
 .submitDisabled {
   opacity: 0.5;
   cursor: not-allowed;
 }
+
 @media (max-width: 1549px) {
   .container {
     padding: 15px;
     max-width: 300px;
     height: auto;
-    margin: 50px 0px 10px 0px;
+    margin: 50px 0px 340px 0px;
   }
-  .labelText {
+
+  .labelText,
+  .restorePassword {
     font-size: 14px;
     font-weight: 400;
     line-height: 17px;
   }
+
   .usernameText,
   .passwordText {
     max-width: 270px;
@@ -203,15 +207,12 @@
     display: flex;
     flex-direction: column;
   }
+
   .submit {
     max-width: 95%;
     height: 59px;
   }
-  .restorePassword {
-    font-size: 14px;
-    font-weight: 400;
-    line-height: 17px;
-  }
+
   .errorText {
     bottom: -15px;
   }

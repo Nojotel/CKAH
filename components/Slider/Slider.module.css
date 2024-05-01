@@ -23,19 +23,13 @@
   margin: 10px;
   height: 200px;
 }
-.slideText {
-  color: var(--colorDark);
 
-  font-size: 18px;
-  font-weight: 400;
-  line-height: 18px;
-}
+.slideText,
 .description {
   color: var(--colorDark);
   font-size: 18px;
   font-weight: 400;
   line-height: 22px;
-  text-align: left;
 }
 
 .arrowLeft,
@@ -46,6 +40,7 @@
   cursor: pointer;
   z-index: 1;
 }
+
 .prevButton,
 .nextButton {
   border: 0;
@@ -54,14 +49,17 @@
   align-items: center;
   background-color: transparent;
 }
+
 .prevButton {
   position: relative;
   left: 15px;
 }
+
 .nextButton {
   position: relative;
   left: -15px;
 }
+
 .arrowLeft {
   left: 20px;
 }
@@ -74,10 +72,12 @@
   .container {
     width: 295px;
   }
+
   .slide {
     flex-direction: column;
     width: 270px;
   }
+
   .slideText {
     font-size: 16px;
   }
