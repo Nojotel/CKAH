@@ -3,7 +3,7 @@ import React, { useState, useCallback, useEffect } from "react";
 import styles from "./Login.module.css";
 import Image from "next/image";
 import { validateEmail, validatePassword } from "@/utils/ValidationUtils";
-import { useAuth } from "@/hooks/AuthProvider";
+import { useAuth } from "@/auth/AuthProvider";
 import { useRouter } from "next/navigation";
 import MDSpinner from "react-md-spinner";
 

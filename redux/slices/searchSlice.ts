@@ -1,25 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-
-interface SearchParams {
-  startDate: string | Date;
-  endDate: string | Date;
-  inputValue: string;
-  totalityValue: string;
-  documentCount: string;
-  options: {
-    maxRelevance: boolean;
-    mentionInBusinessContext: boolean;
-    mainRoleInPublication: boolean;
-    publicationsOnlyWithRiskFactors: boolean;
-    includeTechnicalNews: boolean;
-    includeAnnouncementsAndCalendars: boolean;
-    includeNewsDigests: boolean;
-  };
-}
-
-interface SearchState {
-  params: SearchParams;
-}
+import { SearchParams, SearchState } from "@/types/types";
 
 const initialState: SearchState = {
   params: {

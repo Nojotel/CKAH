@@ -7,12 +7,7 @@ import Link from "next/link";
 import Image from "next/image";
 import Logo from "@/public/logoFooter.png";
 import Button from "@/components/Button/Button";
-
-interface BurgerMenuProps {
-  isAuthenticated: boolean;
-  logout: () => void;
-  handleLogin: () => void;
-}
+import { BurgerMenuProps } from "@/types/types";
 
 const BurgerMenu: React.FC<BurgerMenuProps> = ({ isAuthenticated, logout, handleLogin }) => {
   const dispatch = useDispatch();

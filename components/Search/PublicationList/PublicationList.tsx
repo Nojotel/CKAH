@@ -1,21 +1,11 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import PublicationCard from "@/components/PublicationCard/PublicationCard";
 import styles from "./PublicationList.module.css";
 import Loader from "@/components/Loader/Loader";
-
-interface Publication {
-  id: string;
-  title: { text: string };
-  issueDate: string;
-  source: { name: string };
-  url: string;
-  content: { text: string };
-  attributes: any;
-}
+import { fetchPublications, Publication } from "@/api/listApi";
 
 const PublicationList = ({ setError }: { setError: (error: boolean) => void }) => {
   const [publications, setPublications] = useState<Publication[]>([]);
@@ -26,77 +16,23 @@ const PublicationList = ({ setError }: { setError: (error: boolean) => void }) =
   const searchParams = useSelector((state: RootState) => state.search.params);
 
   useEffect(() => {
-    const fetchPublications = async () => {
+    const fetchData = async () => {
       setIsLoading(true);
       try {
         if (accessToken && searchParams) {
-          const requestBody = {
-            limit: parseInt(searchParams.documentCount) || 10,
-            sortType: "none",
-            sortDirectionType: "desc",
-            issueDateInterval: {
-              startDate: `${searchParams.startDate}T00:00:00+03:00`,
-              endDate: `${searchParams.endDate}T23:59:59+03:00`,
-            },
-            searchContext: {
-              targetSearchEntitiesContext: {
-                targetSearchEntities: [
-                  {
-                    type: "company",
-                    inn: searchParams.inputValue,
-                    maxFullness: searchParams.options.maxRelevance,
-                    inBusinessNews: searchParams.options.mentionInBusinessContext,
-                  },
-                ],
-                onlyMainRole: searchParams.options.mainRoleInPublication,
-                tonality: searchParams.totalityValue,
-                onlyWithRiskFactors: searchParams.options.publicationsOnlyWithRiskFactors,
-              },
-            },
-            attributeFilters: {
-              excludeTechNews: !searchParams.options.includeTechnicalNews,
-              excludeAnnouncements: !searchParams.options.includeAnnouncementsAndCalendars,
-              excludeDigests: !searchParams.options.includeNewsDigests,
-            },
-          };
-
-          const objectSearchResponse = await axios.post("https://gateway.scan-interfax.ru/api/v1/objectsearch", requestBody, {
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-              "Content-Type": "application/json",
-            },
-          });
-
-          const encodedIds = objectSearchResponse.data.items.map((item: { encodedId: string }) => item.encodedId);
-
-          const documentsResponse = await axios.post(
-            "https://gateway.scan-interfax.ru/api/v1/documents",
-            { ids: encodedIds },
-            {
-              headers: {
-                Authorization: `Bearer ${accessToken}`,
-                "Content-Type": "application/json",
-              },
-            }
-          );
-
-          const documents = documentsResponse.data.filter((item: { ok: Publication | null }) => item.ok).map((item: { ok: Publication }) => item.ok);
-
-          setPublications(documents);
-          setDisplayedPublications(documents.slice(0, 2));
-          setShowMore(documents.length > 2);
+          const data = await fetchPublications(accessToken, searchParams, setError);
+          setPublications(data);
+          setDisplayedPublications(data.slice(0, 2));
+          setShowMore(data.length > 2);
         }
-      } catch (error: any) {
-        console.error("Ошибка получения публикаций:", error.message);
-        if (error.response && error.response.status === 400) {
-          setError(true);
-        }
+      } catch (error) {
+        console.error("Ошибка получения публикаций:", error);
       } finally {
         setIsLoading(false);
       }
     };
 
-    fetchPublications();
+    fetchData();
   }, [accessToken, searchParams, setError]);
 
   const handleShowMore = () => {

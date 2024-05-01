@@ -7,17 +7,7 @@ import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
 import { setSearchParams } from "@/redux/slices/searchSlice";
 import { validateInn, validateDocumentCount, validateDateRange } from "@/utils/ValidationUtils";
-
-interface FormData {
-  inputValue: string;
-  totalityValue: string;
-  documentCount: string;
-  startDate: string;
-  endDate: string;
-  options: {
-    [key: string]: boolean;
-  };
-}
+import { FormData } from "@/types/types";
 
 const Scan = () => {
   const router = useRouter();

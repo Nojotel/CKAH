@@ -4,18 +4,7 @@ import styles from "./UserHeader.module.css";
 import loaderStyles from "@/components/Loader/LoaderHeader.module.css";
 import Avatar from "@/public/Avatar.png";
 import MDSpinner from "react-md-spinner";
-
-interface UserHeaderProps {
-  user: {
-    name: string;
-  } | null;
-  accountInfo: {
-    companyLimit: number;
-    usedCompanyCount: number;
-  } | null;
-  logout: () => void;
-  isLoading: boolean;
-}
+import { UserHeaderProps } from "@/types/types";
 
 const UserHeader: React.FC<UserHeaderProps> = ({ user, accountInfo, logout, isLoading }) => {
   const [isLoadingAccountInfo, setIsLoadingAccountInfo] = useState(false);

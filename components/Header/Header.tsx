@@ -5,7 +5,7 @@ import Image from "next/image";
 import Logo from "@/public/logo.png";
 import styles from "./Header.module.css";
 import { usePathname, useRouter } from "next/navigation";
-import { useAuth } from "@/hooks/AuthProvider";
+import { useAuth } from "@/auth/AuthProvider";
 import Registration from "@/components/Registration/Registration";
 import UserHeader from "@/components/UserHeader/UserHeader";
 import BurgerMenu from "./BurgerMenu";

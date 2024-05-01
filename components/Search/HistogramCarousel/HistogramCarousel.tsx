@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
-import axios from "axios";
 import styles from "./HistogramCarousel.module.css";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
@@ -14,19 +13,8 @@ import MDSpinner from "react-md-spinner";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-
-interface HistogramData {
-  date: string;
-  totalDocuments: number;
-  riskFactors: number;
-}
-
-interface HistogramResponse {
-  data: {
-    data: { date: string; value: number; histogramType: string }[];
-    histogramType: string;
-  }[];
-}
+import { HistogramData } from "@/types/types";
+import { fetchHistograms } from "@/api/histogramApi";
 
 const HistogramCarousel: React.FC = () => {
   const [histogramData, setHistogramData] = useState<HistogramData[]>([]);
@@ -67,67 +55,13 @@ const HistogramCarousel: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    const fetchHistograms = async () => {
+    const fetchData = async () => {
       setIsLoading(true);
       try {
-        const response = await axios.post<HistogramResponse>(
-          "https://gateway.scan-interfax.ru/api/v1/objectsearch/histograms",
-          {
-            issueDateInterval: {
-              startDate: `${searchParams.startDate}T00:00:00+03:00`,
-              endDate: `${searchParams.endDate}T23:59:59+03:00`,
-            },
-            searchContext: {
-              targetSearchEntitiesContext: {
-                targetSearchEntities: [
-                  {
-                    type: "company",
-                    sparkId: null,
-                    entityId: null,
-                    inn: searchParams.inputValue,
-                    maxFullness: searchParams.options.maxRelevance,
-                    inBusinessNews: searchParams.options.mentionInBusinessContext,
-                  },
-                ],
-                onlyMainRole: searchParams.options.mainRoleInPublication,
-                tonality: searchParams.totalityValue,
-                onlyWithRiskFactors: searchParams.options.publicationsOnlyWithRiskFactors,
-              },
-              themesFilter: {
-                and: [],
-                or: [],
-                not: [],
-              },
-            },
-            attributeFilters: {
-              excludeTechNews: searchParams.options.includeTechnicalNews,
-              excludeAnnouncements: searchParams.options.includeAnnouncementsAndCalendars,
-              excludeDigests: searchParams.options.includeNewsDigests,
-            },
-            similarMode: "duplicates",
-            limit: parseInt(searchParams.documentCount),
-            sortType: "sourceInfluence",
-            sortDirectionType: "desc",
-            intervalType: "month",
-            histogramTypes: ["totalDocuments", "riskFactors"],
-          },
-          {
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-            },
-          }
-        );
-
-        const totalDocs = response.data.data.find((item) => item.histogramType === "totalDocuments")?.data || [];
-        const risks = response.data.data.find((item) => item.histogramType === "riskFactors")?.data || [];
-
-        const combinedData = totalDocs.map((doc, index) => ({
-          date: formatDate(doc.date),
-          totalDocuments: doc.value,
-          riskFactors: risks[index]?.value || 0,
-        }));
-
-        setHistogramData(combinedData);
+        if (accessToken && searchParams) {
+          const data = await fetchHistograms(accessToken, searchParams);
+          setHistogramData(data);
+        }
       } catch (error) {
         console.error("Ошибка получения сводки:", error);
       } finally {
@@ -135,9 +69,7 @@ const HistogramCarousel: React.FC = () => {
       }
     };
 
-    if (accessToken && searchParams) {
-      fetchHistograms();
-    }
+    fetchData();
   }, [accessToken, searchParams]);
 
   const formatDate = (dateString: string) => {

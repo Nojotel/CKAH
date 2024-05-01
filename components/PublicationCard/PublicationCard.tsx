@@ -3,26 +3,7 @@ import styles from "./PublicationCard.module.css";
 import Image from "next/image";
 import ImgNews from "@/public/ArtboardNews.png";
 import * as xmljs from "xml-js";
-
-interface Publication {
-  id: string;
-  title: { text: string; markup?: string };
-  issueDate: string;
-  source: { name: string };
-  url: string;
-  content: { text?: string; markup?: string };
-  attributes: any;
-}
-
-interface PublicationCardProps {
-  publication: Publication;
-}
-
-interface XmlContent {
-  scandoc: {
-    sentence: { _text: string } | { _text: string }[];
-  };
-}
+import { PublicationCardProps, XmlContent } from "@/types/types";
 
 const PublicationCard: React.FC<PublicationCardProps> = ({ publication }) => {
   const { title, issueDate, source, url, content, attributes } = publication;

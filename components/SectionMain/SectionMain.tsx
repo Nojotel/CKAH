@@ -4,7 +4,7 @@ import styles from "./SectionMain.module.css";
 import Button from "@/components/Button/Button";
 import Image from "next/image";
 import ImgMain from "@/public/SectionMain.jpg";
-import { useAuth } from "@/hooks/AuthProvider";
+import { useAuth } from "@/auth/AuthProvider";
 import { useRouter } from "next/navigation";
 
 const SectionMain: React.FC = () => {

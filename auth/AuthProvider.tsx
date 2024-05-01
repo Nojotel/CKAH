@@ -5,18 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useRouter, usePathname } from "next/navigation";
 import { RootState } from "@/redux/store";
 import { setUser, setAccessToken, setAccountInfo, setIsAuthenticated, setIsLoading } from "@/redux/slices/authSlice";
-
-interface AuthContextValue {
-  login: (email: string, password: string) => Promise<string | undefined>;
-  logout: () => void;
-  getUserInfo: (token: string) => Promise<void>;
-  user: any;
-  accessToken: string | null;
-  accountInfo: any;
-  isAuthenticated: boolean;
-  isLoading: boolean;
-  isAuthCheckingInProgress: boolean;
-}
+import { AuthContextValue } from "@/types/types";
 
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 
