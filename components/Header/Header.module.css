@@ -61,6 +61,7 @@
 @media (max-width: 1549px) {
   .header {
     padding: 0 10px;
+    max-width: 375px;
   }
   .accountInfo {
     position: absolute;

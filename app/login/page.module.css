@@ -2,7 +2,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 70px;
 }
 
 .content {
@@ -52,12 +51,12 @@
 
   .title {
     order: 2;
-    max-width: 380px;
+    max-width: 300px;
     font-size: 22px;
     font-weight: 900;
     line-height: 26px;
     margin-bottom: 20px;
-    text-align: center;
+    text-align: left;
   }
 
   .loginContainer {
@@ -68,7 +67,7 @@
   .img {
     order: 4;
     position: absolute;
-    top: 695px;
+    top: 703px;
   }
 
   .lock {

@@ -30,4 +30,7 @@
   .footer {
     padding: 0 10px;
   }
+  .container {
+    max-width: 375px;
+  }
 }

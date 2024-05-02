@@ -7,7 +7,7 @@
   height: auto;
   justify-content: center;
   align-items: center;
-  padding: 70px 0;
+  padding: 30px 0;
   position: relative;
 }
 
@@ -75,7 +75,7 @@
 
   .slide {
     flex-direction: column;
-    width: 270px;
+    width: 275px;
   }
 
   .slideText {

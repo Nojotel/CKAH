@@ -31,7 +31,6 @@ const PublicationList = ({ setError }: { setError: (error: boolean) => void }) =
         setIsLoading(false);
       }
     };
-
     fetchData();
   }, [accessToken, searchParams, setError]);
 
@@ -44,7 +43,9 @@ const PublicationList = ({ setError }: { setError: (error: boolean) => void }) =
   return (
     <div>
       {isLoading ? (
-        <Loader />
+        <div className={styles.loaderContainer}>
+          <Loader />
+        </div>
       ) : (
         <div className={styles.publicationList}>
           {displayedPublications.map((publication) => (
@@ -52,7 +53,7 @@ const PublicationList = ({ setError }: { setError: (error: boolean) => void }) =
           ))}
         </div>
       )}
-      {showMore && (
+      {showMore && publications.length > 0 && (
         <button className={styles.showMoreButton} onClick={handleShowMore}>
           Показать больше
         </button>

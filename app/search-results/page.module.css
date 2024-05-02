@@ -1,3 +1,9 @@
+.containerBig {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
 .container {
   display: flex;
   justify-content: space-between;
@@ -71,6 +77,14 @@
   margin-left: auto;
   margin-bottom: 100px;
 }
+.containerSmall {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding-left: 10px;
+  width: 1440px;
+}
 
 .buttonBack:hover {
   background-color: var(--colorOrange);
@@ -80,18 +94,16 @@
   .container {
     flex-direction: column;
   }
+  .containerText {
+    max-width: 375px;
+  }
   .title {
     font-size: 28px;
     font-weight: 900;
     line-height: 34px;
     padding-left: 10px;
   }
-  .noResultsTitle {
-    font-size: 28px;
-    font-weight: 900;
-    line-height: 34px;
-    padding-left: 10px;
-  }
+
   .subTitle {
     font-size: 18px;
     font-weight: 400;
@@ -107,6 +119,7 @@
   .img {
     width: 100%;
     height: auto;
+    max-width: 375px;
   }
   .buttonBack {
     width: 85%;
@@ -114,6 +127,7 @@
     margin-bottom: 25px;
   }
   .containerSmall {
+    max-width: 375px;
     display: flex;
     flex-direction: column;
     justify-content: center;

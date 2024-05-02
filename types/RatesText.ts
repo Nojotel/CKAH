@@ -28,7 +28,7 @@ const rates: Rate[] = [
     features: ["Все пункты тарифа Beginner", "Экспорт истории", "Рекомендации по приоритетам"],
     buttonText: "Подробнее",
     buttonTextAuthenticated: "Подробнее",
-    color: "var(--colorTeal)",
+    color: "var(--colorTealLight)",
   },
   {
     id: 3,

@@ -20,7 +20,7 @@ const HistogramCarousel: React.FC = () => {
   const [histogramData, setHistogramData] = useState<HistogramData[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [slidesToShow, setSlidesToShow] = useState(8);
+  const [slidesToShow, setSlidesToShow] = useState(9);
   const { accessToken } = useSelector((state: RootState) => state.auth);
   const searchParams = useSelector((state: RootState) => state.search.params);
   const sliderRef = useRef<Slider>(null);
@@ -44,7 +44,7 @@ const HistogramCarousel: React.FC = () => {
       } else if (window.innerWidth < 1550) {
         setSlidesToShow(1);
       } else {
-        setSlidesToShow(8);
+        setSlidesToShow(9);
       }
     };
     handleResize();
@@ -112,6 +112,8 @@ const HistogramCarousel: React.FC = () => {
             <div className={styles.loaderContainer}>
               <MDSpinner />
             </div>
+          ) : histogramData.length === 0 ? (
+            <div className={styles.noResultsContainer}>Поиск не дал результатов</div>
           ) : (
             <Slider {...settings} ref={sliderRef}>
               {histogramData.map((data, index) => (

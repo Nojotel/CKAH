@@ -31,7 +31,9 @@
   background-color: var(--colorOrange);
   color: var(--colorDark);
 }
-
+.loaderContainer {
+  margin-bottom: 50px;
+}
 @media (max-width: 1549px) {
   .publicationList {
     flex-direction: column;

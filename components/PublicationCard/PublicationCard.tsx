@@ -16,8 +16,8 @@ const PublicationCard: React.FC<PublicationCardProps> = ({ publication }) => {
     const contentXml = xmljs.xml2js(content.markup, { compact: true }) as XmlContent;
     if (contentXml.scandoc && contentXml.scandoc.sentence) {
       newsText = Array.isArray(contentXml.scandoc.sentence) ? contentXml.scandoc.sentence.map((sentence) => sentence._text).join(" ") : contentXml.scandoc.sentence._text;
+      newsText = typeof newsText === "string" ? newsText.replace(/<[^>]*>/g, "") : newsText; // Проверка типа newsText перед вызовом replace
     }
-    newsText = newsText.replace(/<[^>]*>/g, "");
   } else if (content.text) {
     newsText = content.text;
   }
@@ -32,7 +32,7 @@ const PublicationCard: React.FC<PublicationCardProps> = ({ publication }) => {
       </div>
       <h2 className={styles.title}>{title.text}</h2>
       <Image className={styles.img} src={ImgNews} alt="Картинка новости" width={581} height={158} />
-      <p className={styles.content}>{newsText.replace(/\s+/g, " ")}</p>
+      <p className={styles.content}>{typeof newsText === "string" ? newsText.replace(/\s+/g, " ") : newsText}</p> {/* Проверка типа newsText перед вызовом replace */}
       <div className={styles.container}>
         <button className={styles.url}>
           <a href={url} target="_blank" rel="noopener noreferrer">
