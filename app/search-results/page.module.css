@@ -30,8 +30,9 @@
   font-weight: 900;
   line-height: 48px;
   text-align: left;
-  max-width: 817px;
+  max-width: 910px;
   margin: 25px 0;
+  width: 60%;
 }
 .titleSmall {
   color: var(--colorDark);
@@ -40,7 +41,7 @@
   font-weight: 900;
   line-height: 48px;
   text-align: left;
-  max-width: 817px;
+  max-width: 910px;
   margin: 25px 0;
 }
 .subTitle {
@@ -58,7 +59,7 @@
   font-weight: 900;
   line-height: 48px;
   text-align: left;
-  max-width: 817px;
+  max-width: 910px;
   margin: 25px 0;
 }
 
