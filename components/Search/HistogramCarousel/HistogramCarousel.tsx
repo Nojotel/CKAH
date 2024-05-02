@@ -39,12 +39,12 @@ const HistogramCarousel: React.FC = () => {
 
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth < 768) {
+      if (window.innerWidth < 750) {
         setSlidesToShow(1);
-      } else if (window.innerWidth < 1550) {
+      } else if (window.innerWidth < 1440) {
         setSlidesToShow(1);
       } else {
-        setSlidesToShow(9);
+        setSlidesToShow(3);
       }
     };
     handleResize();

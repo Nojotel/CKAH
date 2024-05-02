@@ -174,8 +174,27 @@
   background: var(--colorBlue);
   color: var(--colorWhite);
 }
+@media (max-width: 1439px) {
+  .scanContainer {
+    max-width: 740px;
+    flex-direction: column;
+    margin-bottom: 40px;
+    margin-top: 40px;
+  }
+  .buttonContainer {
+    align-items: flex-start;
+    margin-left: 0;
+    height: 95px;
+  }
+  .searchButton {
+    margin-left: 0;
+  }
 
-@media (max-width: 1549px) {
+  .ps {
+    margin-left: 0;
+  }
+}
+@media (max-width: 750px) {
   .scanContainer {
     flex-direction: column;
     padding: 20px;

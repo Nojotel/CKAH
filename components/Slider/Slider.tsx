@@ -19,10 +19,10 @@ const CustomSlider: React.FC = () => {
 
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth < 768) {
+      if (window.innerWidth < 750) {
         setSlidesToShow(1);
-      } else if (window.innerWidth < 1550) {
-        setSlidesToShow(1);
+      } else if (window.innerWidth < 1440) {
+        setSlidesToShow(2);
       } else {
         setSlidesToShow(3);
       }

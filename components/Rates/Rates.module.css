@@ -14,8 +14,16 @@
   letter-spacing: 1%;
   text-align: left;
 }
-
-@media (max-width: 1549px) {
+@media (max-width: 1439px) {
+  .container {
+    max-width: 740px;
+    margin-bottom: 20px;
+  }
+  .title {
+    font-size: 28px;
+  }
+}
+@media (max-width: 750px) {
   .container {
     padding: 0;
     margin: 0 auto;

@@ -53,11 +53,21 @@
   height: auto;
   margin-left: 80px;
 }
-@media (max-width: 1549px) {
+@media (max-width: 1439px) {
+  .container {
+    max-width: 740px;
+    flex-direction: column;
+  }
+  .title {
+    max-width: 470px;
+  }
+}
+@media (max-width: 750px) {
   .container {
     width: 90%;
     flex-direction: column;
   }
+
   .imgFolders {
     display: none;
   }

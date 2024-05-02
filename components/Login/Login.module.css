@@ -184,8 +184,24 @@
   opacity: 0.5;
   cursor: not-allowed;
 }
+@media (max-width: 1439px) {
+  .container {
+    max-width: 300px;
+  }
+  .usernameText,
+  .passwordText {
+    max-width: 250px;
+    height: 43px;
+    display: flex;
+    flex-direction: column;
+  }
+  .submit {
+    max-width: 250px;
+    height: 50px;
+  }
+}
 
-@media (max-width: 1549px) {
+@media (max-width: 750px) {
   .container {
     padding: 15px;
     max-width: 300px;

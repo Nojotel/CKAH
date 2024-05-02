@@ -7,7 +7,17 @@
   text-align: left;
   margin-bottom: 0;
 }
-@media (max-width: 1549px) {
+@media (max-width: 1439px) {
+  .container {
+    margin-top: 25px;
+  }
+  .title {
+    font-size: 28px;
+    font-weight: 900;
+    line-height: 34px;
+  }
+}
+@media (max-width: 750px) {
   .container {
     padding: 0 30px;
     display: flex;

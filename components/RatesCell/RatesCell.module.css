@@ -197,7 +197,16 @@
 .containerCell:nth-child(3) .buttonCell:hover {
   opacity: 0.7;
 }
-@media (max-width: 1549px) {
+@media (max-width: 1439px) {
+  .container {
+    max-width: 740px;
+    flex-direction: column;
+  }
+  .containerCell {
+    margin-bottom: 34px;
+  }
+}
+@media (max-width: 750px) {
   .container {
     flex-direction: column;
   }

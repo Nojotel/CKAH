@@ -90,7 +90,17 @@
   background-color: var(--colorOrange);
   color: var(--colorDark);
 }
-@media (max-width: 1549px) {
+@media (max-width: 1439px) {
+  .container {
+    flex-direction: column;
+    max-width: 740px;
+  }
+
+  .containerSmall {
+    max-width: 740px;
+  }
+}
+@media (max-width: 750px) {
   .container {
     flex-direction: column;
   }

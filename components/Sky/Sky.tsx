@@ -20,7 +20,7 @@ const Sky = () => {
   }, []);
 
   const renderImage = () => {
-    if (windowWidth < 1500) {
+    if (windowWidth < 750) {
       return <Image className={styles.img} src={ImgMob} alt="Человек в облаках" width={1307} height={536} />;
     } else {
       return <Image className={styles.img} src={Img} alt="Человек в облаках" width={1307} height={536} />;

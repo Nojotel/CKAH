@@ -34,7 +34,7 @@
 .loaderContainer {
   margin-bottom: 50px;
 }
-@media (max-width: 1549px) {
+@media (max-width: 750px) {
   .publicationList {
     flex-direction: column;
   }

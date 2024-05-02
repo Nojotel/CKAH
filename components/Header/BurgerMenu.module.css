@@ -157,3 +157,13 @@
   line-height: 19px;
   opacity: 0.4;
 }
+@media (max-width: 1439px) {
+  .logo {
+    left: 25%;
+  }
+}
+@media (max-width: 750px) {
+  .logo {
+    left: 5px;
+  }
+}

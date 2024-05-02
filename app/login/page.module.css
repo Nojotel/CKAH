@@ -37,8 +37,20 @@
   max-width: 100%;
   height: auto;
 }
+@media (max-width: 1439px) {
+  .container {
+    max-width: 740px;
+  }
+  .title {
+    font-size: 28px;
+    line-height: 38px;
+  }
 
-@media (max-width: 1549px) {
+  .lock {
+    left: 45px;
+  }
+}
+@media (max-width: 750px) {
   .container {
     padding: 10px;
     flex-direction: column;

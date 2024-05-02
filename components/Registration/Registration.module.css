@@ -45,7 +45,7 @@
   color: var(--colorWhite);
 }
 
-@media (max-width: 1549px) {
+@media (max-width: 750px) {
   .container {
     flex-direction: column;
   }

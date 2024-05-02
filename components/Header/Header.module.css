@@ -51,14 +51,57 @@
 .menuItem.active a::after {
   transform: scaleX(1);
 }
-
-.menuItem a:hover::after,
-.menuItem.active a {
-  transform: scaleX(1);
-  color: var(--colorTeal);
+.accountInfo {
+  position: absolute;
+  right: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.containerCompani {
+  width: 200px;
+  margin-right: 50px;
+  height: 63px;
+  border-radius: 5px;
+  background: rgba(217, 217, 217, 0.3);
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+.containerCompaniUseText,
+.containerCompaniLimitText {
+  display: flex;
+  align-items: center;
+  color: rgba(0, 0, 0, 0.4);
+  font-size: 10px;
+  font-weight: 400;
+  line-height: 12px;
+  text-align: right;
 }
 
-@media (max-width: 1549px) {
+.usedCompanyCount,
+.companyLimit {
+  color: var(--colorDark);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 17px;
+  text-align: left;
+  margin-left: 6px;
+}
+
+.companyLimit {
+  color: rgb(138, 197, 64);
+}
+@media (max-width: 1439px) {
+  .header {
+    padding: 0 10px;
+    max-width: 740px;
+  }
+}
+
+@media (max-width: 750px) {
   .header {
     padding: 0 10px;
     max-width: 375px;

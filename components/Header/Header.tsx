@@ -20,7 +20,7 @@ const Header = () => {
   const [isLoadingAccountInfo, setIsLoadingAccountInfo] = useState(false);
 
   useEffect(() => {
-    const handleResize = () => setIsMobile(window.innerWidth <= 1550);
+    const handleResize = () => setIsMobile(window.innerWidth <= 1439);
     handleResize();
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);

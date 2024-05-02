@@ -67,8 +67,22 @@
 .arrowRight {
   right: 20px;
 }
+@media (max-width: 1439px) {
+  .container {
+    width: 680px;
+  }
 
-@media (max-width: 1549px) {
+  .slide {
+    flex-direction: column;
+    width: 315px;
+  }
+
+  .slideText {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 750px) {
   .container {
     width: 295px;
   }
